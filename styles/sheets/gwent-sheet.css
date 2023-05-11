@@ -1,0 +1,39 @@
+.gwent-itemname {
+    text-align: center;
+}
+
+.gwent-item-header {
+    display: flex;
+}
+
+.gwent-item-header img {
+    height: 100px;
+    width: 100px;
+}
+
+.gwent-item-header h1 {
+    margin-bottom: 0;
+}
+
+.gwent-item-header-first-collum {
+    width: 400px;
+    margin-left: 5px;
+}
+
+.gwent-deck-type > div {
+    margin-top: 5px;
+}
+
+.gwent-deck-type-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 5px;
+}
+
+.gwent-item-body {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin-top: 20px;
+}

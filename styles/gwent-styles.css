@@ -1,0 +1,5 @@
+@import "./sheets/gwent-sheet.css";
+
+.error {
+    color: red;
+}

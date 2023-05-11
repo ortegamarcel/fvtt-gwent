@@ -1,0 +1,43 @@
+{
+  "id": "fvtt-gwent",
+  "name": "fvtt-gwent",
+  "title": "Gwen't",
+  "description": "A dice game based on the Witcher card game \"Gwent\", created by u/Dr_Manuka. (Source: https://www.reddit.com/r/WitcherTRPG/comments/ep0cc0/gwent_the_dice_version_of_gwent/)",
+  "authors": [
+    {
+      "name": "Marcel O."
+    }
+  ],
+  "version": "AUTOMATICALLY REPLACED BY GITHUB WORKFLOW ACTION",
+  "esmodules": [
+    "scripts/Gwent.js"
+  ],
+  "relationships": {},
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "languages/en.json"
+    },
+    {
+      "lang": "de",
+      "name": "Deutsch",
+      "path": "languages/de.json"
+    }
+  ],
+  "styles": [
+    "styles/gwent-styles.css"
+  ],
+  "packs": [],
+  "scripts": [],
+  "minimumCoreVersion": "0.6.2",
+  "compatibleCoreVersion": "10",
+  "compatibility": {
+    "minimum": "10",
+    "verified": "10.291",
+    "maximum": 11
+  },
+  "url": "AUTOMATICALLY REPLACED BY GITHUB WORKFLOW ACTION",
+  "manifest": "AUTOMATICALLY REPLACED BY GITHUB WORKFLOW ACTION",
+  "download": "AUTOMATICALLY REPLACED BY GITHUB WORKFLOW ACTION"
+}

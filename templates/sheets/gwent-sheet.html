@@ -1,0 +1,56 @@
+<form autocomplete="off">
+    <header class="gwent-item-header">
+        <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+        <div class="gwent-item-header-first-collum">
+            <h1 class="gwent-itemname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
+            <div class="gwent-deck-type">
+                <div class="gwent-deck-type-label">
+                    <div>
+                        Decktype: 
+                        {{#if (and gwent.type (not game.user.isGM))}}
+                            {{gwent.type}}
+                        {{else}}
+                            <select name="flags.fvtt-gwent.data.type" class="gwent-deck-type-select" id="gwent-deck-type-select">
+                                {{#select gwent.type}}
+                                    <option value="monsters">Monsters</option>
+                                    <option value="north">North</option>
+                                    <option value="nilfgaardian">Nilfgaardian</option>
+                                    <option value="scoiatael">Scoia'tael</option>
+                                {{/select}}
+                            </select>
+                        {{/if}}
+                    </div>
+                    <div class="{{#unless gwent.isComplete}}error{{/unless}}">
+                        Decksize: {{gwent.dice.total}}/10
+                    </div>
+                </div>
+                <div class="gwent-deck-type-description">
+                    Hier kommt eine Beschreibung für den Typ hin.
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="gwent-item-body">
+        <div>
+            <h3>d4</h3>
+            <input type="number" name="flags.fvtt-gwent.data.dice.d4" id="d4" value="{{gwent.dice.d4}}" data-dtype="Number">
+        </div>
+        <div>
+            <h3>d6</h3>
+            <input type="number" name="flags.fvtt-gwent.data.dice.d6" id="d6" value="{{gwent.dice.d6}}" data-dtype="Number">
+        </div>
+        <div>
+            <h3>d8</h3>
+            <input type="number" name="flags.fvtt-gwent.data.dice.d8" id="d8" value="{{gwent.dice.d8}}" data-dtype="Number">
+        </div>
+        <div>
+            <h3>d10</h3>
+            <input type="number" name="flags.fvtt-gwent.data.dice.d10" id="d10" value="{{gwent.dice.d10}}" data-dtype="Number">
+        </div>
+        <div>
+            <h3>d12</h3>
+            <input type="number" name="flags.fvtt-gwent.data.dice.d12" id="d12" value="{{gwent.dice.d12}}" data-dtype="Number">
+        </div>
+    </div>
+</form>
