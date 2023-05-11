@@ -17,4 +17,11 @@ export const registerSettings = function() {
         type: String,
         default: 'system.weight'
     });
+    game.settings.register(MODULE.ID, "debug", {
+        name: "Debug",
+        scope: "world",
+        config: true,
+        type: Boolean,
+        default: true
+    });
 }
