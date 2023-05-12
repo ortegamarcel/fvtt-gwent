@@ -1,4 +1,7 @@
 {
     "GWENT": {
+        "Board": {
+            "phase": "Phase"
+        }
     }
 }

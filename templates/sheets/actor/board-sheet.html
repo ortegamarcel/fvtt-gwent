@@ -1,26 +1,69 @@
 <form class="{{cssClass}}" autocomplete="off">
     <div class="board-header">
-        <h3>
-            {{#if data.player1}}
-            {{data.player1.name}}
-            {{else}}
-            ???
-            {{/if}} vs. 
-            {{#if data.player2}}
-            {{data.player2.name}}
-            {{else}}
-            ???
-            {{/if}}
-        </h3>
-        <div>
-            <p>Phase: {{data.phase}}
-                {{#if data.subphase}}
-                &nbsp;-&nbsp;{{data.subphase}}
-                {{/if}}
-            </p>
+        <p class="board-phase">
+            {{localize "GWENT.Board.phase"}}: {{data.phase}} - {{data.subphase}}
+        </p>
+        <div class="board-banner">
+            <div class="board-banner-left">
+                <div>
+                    {{#if (and data.player1 data.player1.img)}}
+                    <img src="{{data.player1.img}}" alt="Player1">
+                    {{else}}
+                    <img src="icons/svg/mystery-man-black.svg" alt="Player2">
+                    {{/if}}
+                </div>
+                <div class="board-banner-player">
+                    <h4>
+                        {{#if data.player1}}
+                        {{data.player1.name}}
+                        {{else}}
+                        ???
+                        {{/if}}
+                    </h4>
+                    <div class="board-player-circles">
+                        <div class="board-player-circle {{#if (eq data.subphase data.SUBPHASE.round1)}}active{{/if}}"></div>
+                        <div class="board-player-circle {{#if (eq data.subphase data.SUBPHASE.round2)}}active{{/if}}"></div>
+                        <div class="board-player-circle {{#if (eq data.subphase data.SUBPHASE.round3)}}active{{/if}}"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="board-banner-center">
+                <img src="icons/svg/combat.svg" alt="VS">
+                <span class="board-banner-vs">VS</span>
+            </div>
+            <div class="board-banner-right">
+                <div class="board-banner-player">
+                    <h4>
+                        {{#if data.player2}}
+                        {{data.player2.name}}
+                        {{else}}
+                        ???
+                        {{/if}}
+                    </h4>
+                    <div class="board-player-circles">
+                        <div class="board-player-circle {{#if (eq data.subphase data.SUBPHASE.round1)}}active{{/if}}"></div>
+                        <div class="board-player-circle {{#if (eq data.subphase data.SUBPHASE.round2)}}active{{/if}}"></div>
+                        <div class="board-player-circle {{#if (eq data.subphase data.SUBPHASE.round3)}}active{{/if}}"></div>
+                    </div>
+                </div>
+                <div>
+                    {{#if (and data.player2 data.player2.img)}}
+                    <img src="{{data.player2.img}}" alt="Player2">
+                    {{else}}
+                    <img src="icons/svg/mystery-man-black.svg" alt="Player2">
+                    {{/if}}
+                </div>
+            </div>
         </div>
+        {{#if data.subphase}}
+        <div class="board-round-display">
+            {{localize data.subphase}}
+        </div>
+        {{/if}}
     </div>
-    <div class="board-body">
+
+
+    {{!-- <div class="board-body">
         <div class="side-1">
             <h5>Side 1</h5>
             {{#each data.board.side1}}
@@ -64,5 +107,5 @@
         {{#if game.user.isGM}}
         <button type="button" class="reset-game">Reset Game</button>
         {{/if}}
-    </div>
+    </div> --}}
 </form>
