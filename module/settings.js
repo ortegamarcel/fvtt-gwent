@@ -24,4 +24,12 @@ export const registerSettings = function() {
         type: Boolean,
         default: true
     });
+    game.settings.register(MODULE.ID, "boardId", {
+        name: "GWENT.Settings.boardId",
+        name: "GWENT.Settings.boardIdHint",
+        scope: "world",
+        config: true,
+        type: String,
+        default: 'vEVRuxDEMtPweNIB'
+    });
 }

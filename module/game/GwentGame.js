@@ -1,6 +1,6 @@
 import { GAME_PHASE } from "../constants.js";
 import { logger } from "../logger.js";
-import { Board } from "./board.js";
+import Board from "./Board.js";
 
 export class GwentGame {
     id;

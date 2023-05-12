@@ -1,0 +1,46 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <div class="board-header">
+        <h3>
+            {{#if data.player1}}
+            {{data.player1.name}}
+            {{else}}
+            ???
+            {{/if}} vs. 
+            {{#if data.player2}}
+            {{data.player2.name}}
+            {{else}}
+            ???
+            {{/if}}
+        </h3>
+        <div>
+            <p>Phase: {{data.phase}}</p>
+        </div>
+    </div>
+    <div class="board-body">
+        <div class="side-1">
+            <h5>Side 1</h5>
+            {{#each data.board.side1}}
+            <span style="width: 20px; height: 20px;">{{this}}</span>
+            {{/each}}
+        </div>
+        <div class="side-2">
+            <h5>Side 2</h5>
+            {{#each data.board.side2}}
+            <span style="width: 20px; height: 20px;">{{this}}</span>
+            {{/each}}
+        </div>
+        <div class="player-controls">
+        {{#if (or (eq data.player1.actorId game.user.character.id) (eq data.player1.isGM game.user.isGM))}}
+        Player 1 Controls
+        {{/if}}
+        {{#if (or (eq data.player2.actorId game.user.character.id) (eq data.player2.isGM game.user.isGM))}}
+        Player 2 Controls
+        {{/if}}
+        </div>
+    </div>
+    <div class="board-footer">
+        {{#if game.user.isGM}}
+        <button type="button" class="reset-game">Reset Game</button>
+        {{/if}}
+    </div>
+</form>

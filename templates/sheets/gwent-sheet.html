@@ -1,5 +1,4 @@
 <form autocomplete="off">
-    {{#unless gwent.gameId}}
     <header class="gwent-item-header">
         <img src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
         <div class="gwent-item-header-first-collum">
@@ -60,27 +59,4 @@
         <button type="button" class="join-game">Join Game</button>
         <button type="button" class="start-game">Start Game</button>
     </div>
-    {{else}}
-    <div class="gwent-item-body">
-        <h3>
-            {{#if gwentGame.player1}}#
-            {{gwentGame.player1.name}}
-            {{else}}
-            ???
-            {{/if}} vs. 
-            {{#if gwentGame.player2}}
-            {{gwentGame.player2.name}}
-            {{else}}
-            ???
-            {{/if}}
-        </h3>
-        <div style="display: flex">
-            <p>ID: {{gwentGame.id}}</p>
-            <p>Phase: {{gwentGame.phase}}</p>
-        </div>
-    </div>
-    <div class="gwent-item-footer">
-        <button type="button" class="cancel-game">Cancel Game</button>
-    </div>
-    {{/unless}}
 </form>
