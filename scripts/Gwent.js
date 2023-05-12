@@ -6,6 +6,7 @@ import BoardSheet from "../module/sheets/BoardSheet.js";
 async function preloadHandlebarsTemplates() {
     const templatePath = [
         "modules/fvtt-gwent/templates/sheets/gwent-sheet.html",
+        "modules/fvtt-gwent/templates/partials/gwent-die.html",
     ];
     return loadTemplates(templatePath);
 }
@@ -33,6 +34,20 @@ Handlebars.registerHelper("isMyTurn", function (gwentData) {
 
     return gwentData.currentPlayer.isGM == game.user.isGM
         || gwentData.currentPlayer.actorId == game.user.character?.id;
+});
+
+Handlebars.registerHelper("amIPlayer1", function (gwentData) {
+    if (!gwentData.player1) return false;
+
+    return gwentData.player1.isGM == game.user.isGM
+        || gwentData.player1.actorId == game.user.character?.id;
+});
+
+Handlebars.registerHelper("amIPlayer2", function (gwentData) {
+    if (!gwentData.player2) return false;
+
+    return gwentData.player2.isGM == game.user.isGM
+        || gwentData.player2.actorId == game.user.character?.id;
 });
 
 Handlebars.registerHelper("amISpectator", function (gwentData) {

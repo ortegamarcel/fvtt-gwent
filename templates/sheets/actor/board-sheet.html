@@ -103,20 +103,17 @@
         <div class="player-controls">
         {{#unless (eq data.phase PHASE.waitingForPlayers)}}
             {{!-- Player 1 Controls --}}
-            {{#if (or (eq data.player1.actorId game.user.character.id) (eq data.player1.isGM game.user.isGM))}}
+            {{#if (amIPlayer1 data)}}
             <div class="player" data-player="player1">
-                {{#each data.player1.dice}}
-                <div class="gwent-die clickable" data-player="player1" data-dieIndex="{{@index}}">
-                    <div class="tier {{this.tier}}">{{this.tier}}</div>
-                    <div class="value">
-                        {{#if this.value}}
-                        {{this.value}}
-                        {{else}}
-                        ?
-                        {{/if}}
-                    </div>
-                </div>
-                {{/each}}
+                {{#if (isMyTurn data)}}
+                    {{#each data.player1.dice}}
+                    {{> "modules/fvtt-gwent/templates/partials/gwent-die.html" die=this player="player1" index=@index cssClass="clickable"}}
+                    {{/each}}
+                {{else}}
+                    {{#each data.player1.dice}}
+                    {{> "modules/fvtt-gwent/templates/partials/gwent-die.html" die=this player="player1" index=@index}}
+                    {{/each}}
+                {{/if}}
                 {{#unless data.player1.isReady}}
                 <button type="button" class="roll-all-dice">{{localize "GWENT.Board.rollAll"}}</button>
                 {{/unless}}
@@ -124,20 +121,17 @@
             {{/if}}
 
             {{!-- Player 2 Controls --}}
-            {{#if (or (eq data.player2.actorId game.user.character.id) (eq data.player2.isGM game.user.isGM))}}
+            {{#if (amIPlayer2 data)}}
             <div class="player" data-player="player2">
-                {{#each data.player2.dice}}
-                <div class="gwent-die clickable" data-player="player2" data-dieIndex="{{@index}}">
-                    <div class="tier {{this.tier}}">{{this.tier}}</div>
-                    <div class="value">
-                        {{#if this.value}}
-                        {{this.value}}
-                        {{else}}
-                        ?
-                        {{/if}}
-                    </div>
-                </div>
-                {{/each}}
+                {{#if (isMyTurn data)}}
+                    {{#each data.player2.dice}}
+                    {{> "modules/fvtt-gwent/templates/partials/gwent-die.html" die=this player="player2" index=@index cssClass="clickable"}}
+                    {{/each}}
+                {{else}}
+                    {{#each data.player2.dice}}
+                    {{> "modules/fvtt-gwent/templates/partials/gwent-die.html" die=this player="player2" index=@index}}
+                    {{/each}}
+                {{/if}}
                 {{#unless data.player2.isReady}}
                 <button type="button" class="roll-all-dice">{{localize "GWENT.Board.rollAll"}}</button>
                 {{/unless}}
