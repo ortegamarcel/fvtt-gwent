@@ -113,8 +113,17 @@ export default class BoardSheet extends ActorSheet {
         const player1 = await this.getValueAsync(GAME.PLAYER.p1);
         const player2 = await this.getValueAsync(GAME.PLAYER.p2);
         if (player1.isReady && player2.isReady) {
-            await this.setValueAsync(GAME.KEY.phase, GAME.PHASE.startGame);
-            await this.setValueAsync(GAME.KEY.subphase, GAME.SUBPHASE.round1);
+            this._startRound();
         }
+    }
+
+    async _startRound() {
+        await this.setValueAsync(GAME.KEY.phase, GAME.PHASE.startGame);
+        await this.setValueAsync(GAME.KEY.subphase, GAME.SUBPHASE.round1);
+        await this.setValueAsync(GAME.KEY.turn, GAME.PLAYER.p1);
+    }
+
+    async _endRound() {
+
     }
 }
