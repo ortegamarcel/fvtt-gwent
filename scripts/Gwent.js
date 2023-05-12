@@ -1,7 +1,6 @@
 import GwentItemSheet from "../module/sheets/GwentItemSheet.js";
 import { registerSettings } from "../module/settings.js";
 import { MODULE } from "../module/constants.js";
-import { GameManager } from "../module/game/GameManager.js";
 import BoardSheet from "../module/sheets/BoardSheet.js";
 
 async function preloadHandlebarsTemplates() {
@@ -20,7 +19,6 @@ Hooks.once("init", function () {
 
     preloadHandlebarsTemplates();
     registerSettings();
-    // GameManager.init();
 });
 
 Handlebars.registerHelper("not", function (bool) {

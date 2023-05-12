@@ -81,14 +81,13 @@ export default class GwentItemSheet extends ItemSheet {
         return new Player(this.actor?.id, this.actor?.name ?? game.user.name, this.actor?.img);
     }
 
-    async _getGwentData() {
+    async getGwentData() {
         return this.object.getFlag(MODULE.ID, 'data');
     }
 
     async _updateGwentData(dataPartial) {
-        const data = await this._getGwentData();
+        const data = await this.getGwentData();
         const update = mergeDeep({}, data, dataPartial);
         this.object.setFlag(MODULE.ID, 'data', update);
     }
-
 }

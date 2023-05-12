@@ -3,17 +3,11 @@ import Board from "../game/Board.js";
 import { logger } from "../logger.js";
 
 export default class BoardSheet extends ActorSheet {
-    async getValue(key) {
-        return await this.actor.setFlag(MODULE.ID, key);
-    }
-    async setValue(key, value) {
-        await this.actor.setFlag(MODULE.ID, key, value);
-    }
     async getValueAsync(key) {
-        return this.actor.setFlag(MODULE.ID, key);
+        return await this.actor.getFlag(MODULE.ID, key);
     }
     async setValueAsync(key, value) {
-        this.actor.setFlag(MODULE.ID, key, value);
+        await this.actor.setFlag(MODULE.ID, key, value);
     }
 
     /** @override */
@@ -28,8 +22,8 @@ export default class BoardSheet extends ActorSheet {
 
     constructor(...args) {
         super(...args);
-        this.setValue(GAME.KEY.board, new Board());
-        this.setValue(GAME.KEY.phase, GAME.PHASE.waitingForPlayers);
+        this.setValueAsync(GAME.KEY.board, new Board());
+        this.setValueAsync(GAME.KEY.phase, GAME.PHASE.waitingForPlayers);
     }
 
     /** @override */
@@ -64,24 +58,46 @@ export default class BoardSheet extends ActorSheet {
     }
 
     async joinGame(player, deckItem) {
-        const [player1, player2, newDeckItem] = await Promise.all([
+        const [player1, player2, newDeckItems] = await Promise.all([
             this.getValueAsync(GAME.PLAYER.p1),
             this.getValueAsync(GAME.PLAYER.p2),
             this.actor.createEmbeddedDocuments('Item', [deckItem])
-        ])
-        player.deckItemId = newDeckItem.id;
+        ]);
+        player = {
+            ...player,
+            deckItemId: newDeckItems[0].id
+        };
         if (!player1) {
             await this.setValueAsync(GAME.PLAYER.p1, player);
         } else if (!player2) {
             await this.setValueAsync(GAME.PLAYER.p2, player);
-            this._startGame();
+            await this._startGame();
         } else {
-            ui.notification.info('Others are already playing');
+            ui.notifications.info('Others are already playing');
         }
     }
 
-    _startGame() {
-        logger.debug('Starting game');
-        this.setValue(GAME.KEY.phase, GAME.PHASE.playersPreparingDice);
+    async _startGame() {
+        logger.log('Starting game');
+        await this.setValueAsync(GAME.KEY.phase, GAME.PHASE.playersPreparingDice);
+        const player1 = { ...(await this.getValueAsync(GAME.PLAYER.p1)) };
+        const player2 = { ...(await this.getValueAsync(GAME.PLAYER.p2)) };
+        const player1Deck = this.actor.items.get(player1.deckItemId);
+        const player2Deck = this.actor.items.get(player2.deckItemId);
+    }
+
+    async _rollStartingHandPlayer1() {
+        this._rollStartingHand(GAME.PLAYER.p1);
+    }
+    
+    async _rollStartingHandPlayer1() {
+        this._rollStartingHand(GAME.PLAYER.p2);
+    }
+
+    async _rollStartingHand(playerKey) {
+        const player = await this.getValueAsync(playerKey);
+        const deck = this.actor.items.get(player.deckItemId);
+        const deckData = await deck.getGwentData();
+        
     }
 }
