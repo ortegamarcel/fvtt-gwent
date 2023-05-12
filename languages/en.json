@@ -1,7 +1,17 @@
 {
     "GWENT": {
         "Board": {
-            "phase": "Phase"
+            "phase": "Phase",
+            "waitingForPlayers": "Waiting for Players to join",
+            "playersPreparingDice": "Waiting for Players to roll their starting dice",
+            "finished": "Game Finished",
+            "yourTurn": "Your turn",
+            "enemyTurn": "Enemy turn",
+            "round1": "Round 1",
+            "round2": "Round 2",
+            "round3": "Round 3",
+            "rollAll": "Roll All",
+            "resetGame": "Reset Game"
         }
     }
 }

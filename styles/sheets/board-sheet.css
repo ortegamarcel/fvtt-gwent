@@ -1,3 +1,4 @@
+/* HEADER */
 .board-phase {
     display: block;
     font-size: 16px;
@@ -20,8 +21,9 @@
 }
 
 .board-banner img {
-    width: 100px;
     height: 100px;
+    width: 100px;
+    min-width: 100px;
     border: 2px solid black;
     box-sizing: border-box;
 }
@@ -90,7 +92,6 @@
     padding: 0;
     font-size: 25px;
     color: black;
-    font-weight: blod;
 }
 
 .board-banner-center {
@@ -120,9 +121,128 @@
 .board-round-display {
     display: flex;
     justify-content: center;
-    font-size: 16px;
-    line-height: 20px;
-    font-weight: bold;
-    color: black;
+    font-size: 20px;
+    line-height: 30px;
+    color: white;
     width: 100%;
+    background: lightslategray;
+}
+
+/* BODY */
+.board-body {
+    /* height: 400px; */
+}
+
+.board-field {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 165px;
+    border-bottom: 1px solid black;
+}
+
+.board-field > div:first-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+    gap: 5px;
+    border-right: 1px solid black;
+    width: 100%;
+    height: 100%;
+    background: lightslategray;
+    padding: 20px;
+}
+
+.board-field > div:last-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 5px;
+    border-left: 1px solid black;
+    width: 100%;
+    height: 100%;
+    background: lightslategray;
+    padding: 20px;
+}
+
+.player-controls {
+    background: lightgray;
+    width: 100%;
+    padding: 0 10px 5px 10px;
+}
+
+.player-controls .player {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    gap: 5px;
+    width: 100%;
+}
+
+.player-controls .player button {
+    position: absolute;
+    right: 5px;
+    width: fit-content;
+}
+
+/* Status Display */
+.status-display {
+    display: flex;
+    background: lightgray;
+    justify-content: center;
+    align-items: flex-end;
+    font-size: 16px;
+    line-height: 22px;
+    height: 30px;
+    color: black;
+}
+
+/* FOOTER */
+.board-footer {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: 50px;
+}
+
+.board-footer > button {
+    max-width: 200px;
+}
+
+/* GWENT DIE */
+.gwent-die {
+    width: 45px;
+    height: 60px;
+    display: grid;
+    grid-template-rows: 20px 40px;
+    background: white;
+    border-radius: 5px;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.gwent-die > div {
+    width: 100%;
+    height: 100%;
+}
+
+.gwent-die .tier {
+    background: black;
+    color: white;
+    font-size: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px 5px 0 0;
+}
+
+.gwent-die .value {
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

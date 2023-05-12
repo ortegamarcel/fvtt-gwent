@@ -1,8 +1,6 @@
 <form class="{{cssClass}}" autocomplete="off">
+    {{!-- HEADER --}}
     <div class="board-header">
-        <p class="board-phase">
-            {{localize "GWENT.Board.phase"}}: {{data.phase}}
-        </p>
         <div class="board-banner">
             <div class="board-banner-left">
                 <div>
@@ -55,57 +53,97 @@
                 </div>
             </div>
         </div>
-        {{#if data.subphase}}
         <div class="board-round-display">
-            {{localize data.subphase}}
+            {{#if data.subphase}}
+            {{localize (concat "GWENT.Board." data.subphase)}}
+            {{!-- {{data.subphase}} --}}
+            {{/if}}
         </div>
-        {{/if}}
     </div>
 
+    {{!-- BODY --}}
+    <div class="board-body">
+        <div class="board-field">
+            {{!-- Player 1 (Left Side) --}}
+            <div>
+                {{#each data.board.side1}}
+                <div class="gwent-die">
+                    <div class="tier">{{this.tier}}</div>
+                    <div class="value">{{this.value}}</div>
+                </div>
+                {{/each}}
+            </div>
+            {{!-- Player 2 (Right Side) --}}
+            <div>
+                {{#each data.board.side2}}
+                <div class="gwent-die">
+                    <div class="tier">{{this.tier}}</div>
+                    <div class="value">{{this.value}}</div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
 
-    {{!-- <div class="board-body">
-        <div class="side-1">
-            <h5>Side 1</h5>
-            {{#each data.board.side1}}
-            <span style="width: 20px; height: 20px;">{{this}}</span>
-            {{/each}}
+        {{!-- Status Display --}}
+        <div class="status-display">
+            {{#if (not data.phase data.PHASE.startGame)}}
+            {{localize (concat "GWENT.Board." data.phase)}}
+            {{/if}}
+            {{localize 'GWENT.Board.yourTurn'}}
         </div>
-        <div class="side-2">
-            <h5>Side 2</h5>
-            {{#each data.board.side2}}
-            <span style="width: 20px; height: 20px;">{{this}}</span>
-            {{/each}}
-        </div>
+
+        {{!-- Player Controls --}}
         <div class="player-controls">
         {{#unless (eq data.phase PHASE.waitingForPlayers)}}
+            {{!-- Player 1 Controls --}}
             {{#if (or (eq data.player1.actorId game.user.character.id) (eq data.player1.isGM game.user.isGM))}}
             <div class="player" data-player="player1">
-                Player 1 Controls:
                 {{#each data.player1.dice}}
-                <button type="button" class="play-dice1-{{@index}}"  style="width: 40px; height: 40px;">{{this.tier}} -> {{this.value}}</span>
+                <div class="gwent-die clickable" data-player="player1" data-dieIndex="{{@index}}">
+                    <div class="tier {{this.tier}}">{{this.tier}}</div>
+                    <div class="value">
+                        {{#if this.value}}
+                        {{this.value}}
+                        {{else}}
+                        ?
+                        {{/if}}
+                    </div>
+                </div>
                 {{/each}}
                 {{#unless data.player1.isReady}}
-                <button type="button" class="roll-all-dice">Roll All</button>
+                <button type="button" class="roll-all-dice">{{localize "GWENT.Board.rollAll"}}</button>
                 {{/unless}}
             </div>
             {{/if}}
+
+            {{!-- Player 2 Controls --}}
             {{#if (or (eq data.player2.actorId game.user.character.id) (eq data.player2.isGM game.user.isGM))}}
             <div class="player" data-player="player2">
-                Player 2 Controls:
                 {{#each data.player2.dice}}
-                <button type="button" class="play-dice2-{{@index}}"  style="width: 40px; height: 40px;">{{this.tier}} -> {{this.value}}</span>
+                <div class="gwent-die clickable" data-player="player2" data-dieIndex="{{@index}}">
+                    <div class="tier {{this.tier}}">{{this.tier}}</div>
+                    <div class="value">
+                        {{#if this.value}}
+                        {{this.value}}
+                        {{else}}
+                        ?
+                        {{/if}}
+                    </div>
+                </div>
                 {{/each}}
                 {{#unless data.player2.isReady}}
-                <button type="button" class="roll-all-dice">Roll All</button>
+                <button type="button" class="roll-all-dice">{{localize "GWENT.Board.rollAll"}}</button>
                 {{/unless}}
             </div>
             {{/if}}
         {{/unless}}
         </div>
     </div>
+
+    {{!-- FOOTER --}}
     <div class="board-footer">
         {{#if game.user.isGM}}
-        <button type="button" class="reset-game">Reset Game</button>
+        <button type="button" class="reset-game">{{localize "GWENT.Board.resetGame"}}</button>
         {{/if}}
-    </div> --}}
+    </div>
 </form>

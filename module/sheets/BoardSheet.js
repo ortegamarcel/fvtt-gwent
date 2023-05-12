@@ -14,6 +14,8 @@ export default class BoardSheet extends ActorSheet {
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
             classes: ["board", "sheet", "actor"],
+            width: 'auto',
+            height: 'auto',
             template: "modules/fvtt-gwent/templates/sheets/actor/board-sheet.html",
         });
     }

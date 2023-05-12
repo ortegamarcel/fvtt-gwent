@@ -10,7 +10,6 @@ async function preloadHandlebarsTemplates() {
     return loadTemplates(templatePath);
 }
 
-
 Hooks.once("init", function () {
     console.log(`${MODULE.ID} | init module`);
 
@@ -23,4 +22,8 @@ Hooks.once("init", function () {
 
 Handlebars.registerHelper("not", function (bool) {
     return !bool;
+});
+
+Handlebars.registerHelper("concat", function (...str) {
+    return str.slice(0, -1).join("");
 });
