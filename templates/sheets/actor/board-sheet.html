@@ -13,7 +13,11 @@
             {{/if}}
         </h3>
         <div>
-            <p>Phase: {{data.phase}}</p>
+            <p>Phase: {{data.phase}}
+                {{#if data.subphase}}
+                &nbsp;-&nbsp;{{data.subphase}}
+                {{/if}}
+            </p>
         </div>
     </div>
     <div class="board-body">
@@ -30,12 +34,30 @@
             {{/each}}
         </div>
         <div class="player-controls">
-        {{#if (or (eq data.player1.actorId game.user.character.id) (eq data.player1.isGM game.user.isGM))}}
-        Player 1 Controls
-        {{/if}}
-        {{#if (or (eq data.player2.actorId game.user.character.id) (eq data.player2.isGM game.user.isGM))}}
-        Player 2 Controls
-        {{/if}}
+        {{#unless (eq data.phase PHASE.waitingForPlayers)}}
+            {{#if (or (eq data.player1.actorId game.user.character.id) (eq data.player1.isGM game.user.isGM))}}
+            <div class="player" data-player="player1">
+                Player 1 Controls:
+                {{#each data.player1.dice}}
+                <button type="button" class="play-dice1-{{@index}}"  style="width: 40px; height: 40px;">{{this.tier}} -> {{this.value}}</span>
+                {{/each}}
+                {{#unless data.player1.isReady}}
+                <button type="button" class="roll-all-dice">Roll All</button>
+                {{/unless}}
+            </div>
+            {{/if}}
+            {{#if (or (eq data.player2.actorId game.user.character.id) (eq data.player2.isGM game.user.isGM))}}
+            <div class="player" data-player="player2">
+                Player 2 Controls:
+                {{#each data.player2.dice}}
+                <button type="button" class="play-dice2-{{@index}}"  style="width: 40px; height: 40px;">{{this.tier}} -> {{this.value}}</span>
+                {{/each}}
+                {{#unless data.player2.isReady}}
+                <button type="button" class="roll-all-dice">Roll All</button>
+                {{/unless}}
+            </div>
+            {{/if}}
+        {{/unless}}
         </div>
     </div>
     <div class="board-footer">
