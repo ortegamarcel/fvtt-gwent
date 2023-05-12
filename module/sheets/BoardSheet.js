@@ -23,14 +23,15 @@ export default class BoardSheet extends ActorSheet {
     /** @override */
     async getData() {
         const data = super.getData();
-        const [player1, player2, phase, subphase, board] = await Promise.all([
+        const [player1, player2, currentPlayer, phase, subphase, board] = await Promise.all([
             this.getValueAsync(GAME.PLAYER.p1),
             this.getValueAsync(GAME.PLAYER.p2),
+            this.getValueAsync(GAME.PLAYER.current),
             this.getValueAsync(GAME.KEY.phase),
             this.getValueAsync(GAME.KEY.subphase),
             this.getValueAsync(GAME.KEY.board),
         ]);
-        data.data = { player1, player2, phase, subphase, board };
+        data.data = { player1, player2, currentPlayer, phase, subphase, board };
         data.game = game;
         data.PHASE = GAME.PHASE;
         data.SUBPHASE = GAME.SUBPHASE;
@@ -49,8 +50,10 @@ export default class BoardSheet extends ActorSheet {
         await Promise.all([
             this.setValueAsync(GAME.PLAYER.p1, null),
             this.setValueAsync(GAME.PLAYER.p2, null),
+            this.setValueAsync(GAME.PLAYER.current, null),
             this.setValueAsync(GAME.KEY.board, new Board()),
             this.setValueAsync(GAME.KEY.phase, GAME.PHASE.waitingForPlayers),
+            this.setValueAsync(GAME.KEY.subphase, null),
             this.actor.deleteEmbeddedDocuments('Item', this.actor.items.map(i => i.id))
         ]);
     }
@@ -122,9 +125,15 @@ export default class BoardSheet extends ActorSheet {
         await this.setValueAsync(GAME.KEY.phase, GAME.PHASE.startGame);
         await this.setValueAsync(GAME.KEY.subphase, GAME.SUBPHASE.round1);
         await this.setValueAsync(GAME.KEY.turn, GAME.PLAYER.p1);
+        await this.setValueAsync(GAME.PLAYER.current, await this._getStartingPlayer());
     }
 
     async _endRound() {
 
+    }
+
+    async _getStartingPlayer() {
+        // For now player 2 begins.
+        return await this.getValueAsync(GAME.PLAYER.p2);
     }
 }

@@ -32,10 +32,12 @@ export const GAME = {
     PLAYER: {
         p1: 'player1',
         p2: 'player2',
+        current: 'currentPlayer',
     },
     KEY: {
         phase: 'phase',
         subphase: 'subphase',
         board: 'board',
+        currentPlayer: 'currentPlayer',
     }
 };

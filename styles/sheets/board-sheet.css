@@ -219,10 +219,16 @@
     grid-template-rows: 20px 40px;
     background: white;
     border-radius: 5px;
+    transition: all .1s linear;
 }
 
 .clickable {
     cursor: pointer;
+}
+
+.gwent-die.clickable:hover {
+    transform: translateY(-5px);
+    box-shadow: 2px 5px 4px;
 }
 
 .gwent-die > div {

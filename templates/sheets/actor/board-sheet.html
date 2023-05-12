@@ -86,10 +86,17 @@
 
         {{!-- Status Display --}}
         <div class="status-display">
-            {{#if (not data.phase data.PHASE.startGame)}}
+            {{#if (not (eq data.phase PHASE.startGame))}}
             {{localize (concat "GWENT.Board." data.phase)}}
+            {{else}}
+                {{#if (isMyTurn data)}}
+                {{localize 'GWENT.Board.yourTurn'}}
+                {{else if (amISpectator data)}}
+                {{localize 'GWENT.Board.onTheMove'}}: {{data.currentPlayer.name}}
+                {{else}}
+                {{localize 'GWENT.Board.enemyTurn'}}
+                {{/if}}
             {{/if}}
-            {{localize 'GWENT.Board.yourTurn'}}
         </div>
 
         {{!-- Player Controls --}}
@@ -134,6 +141,9 @@
                 {{#unless data.player2.isReady}}
                 <button type="button" class="roll-all-dice">{{localize "GWENT.Board.rollAll"}}</button>
                 {{/unless}}
+                {{#if (eq data.phase PHASE.startGame)}}
+                    <button type="button" class="pass" {{#unless (isMyTurn data)}}disabled="disabled"{{/unless}}>Pass</button>
+                {{/if}}
             </div>
             {{/if}}
         {{/unless}}

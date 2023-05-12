@@ -5,7 +5,6 @@ export class Player {
     img = null;
     deckItemId = null;
     isReady = false;
-    inTurn = false;
     dice = [];
 
     constructor(actorId, name, img) {
