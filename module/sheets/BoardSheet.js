@@ -1,19 +1,19 @@
-import { GAME_PHASE, MODULE } from "../constants.js";
+import { GAME, MODULE } from "../constants.js";
 import Board from "../game/Board.js";
 import { logger } from "../logger.js";
 
 export default class BoardSheet extends ActorSheet {
     async getPlayer1() {
-        return this.actor.getFlag(MODULE.ID, 'player1');
+        return this.actor.getFlag(MODULE.ID, GAME.PLAYER.p1);
     }
     async setPlayer1(player) {
-        this.actor.setFlag(MODULE.ID, 'player1', player);
+        this.actor.setFlag(MODULE.ID, GAME.PLAYER.p1, player);
     }
     async getPlayer2() {
-        return this.actor.getFlag(MODULE.ID, 'player2');
+        return this.actor.getFlag(MODULE.ID, GAME.PLAYER.p2);
     }
     async setPlayer2(player) {
-        this.actor.setFlag(MODULE.ID, 'player2', player);
+        this.actor.setFlag(MODULE.ID, GAME.PLAYER.p2, player);
     }
     async getBoard() {
         return this.actor.getFlag(MODULE.ID, 'board');
@@ -35,14 +35,13 @@ export default class BoardSheet extends ActorSheet {
             width: 600,
             height: 600,
             template: "modules/fvtt-gwent/templates/sheets/actor/board-sheet.html",
-            // tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }],
         });
     }
 
     constructor(...args) {
         super(...args);
-        this.board = new Board();
-        this.phase = GAME_PHASE.waitingForPlayers;
+        this.setBoard(new Board());
+        this.setPhase(GAME.PHASE.waitingForPlayers);
     }
 
     /** @override */
@@ -71,22 +70,22 @@ export default class BoardSheet extends ActorSheet {
             this.setPlayer1(null),
             this.setPlayer2(null),
             this.setBoard(new Board()),
-            this.setPhase(GAME_PHASE.waitingForPlayers),
+            this.setPhase(GAME.PHASE.waitingForPlayers),
             this.actor.deleteEmbeddedDocuments('Item', this.actor.items.map(i => i.id))
         ]);
     }
 
-    async joinGame(player, deck) {
-        const [player1, player2] = await Promise.all([
+    async joinGame(player, deckItem) {
+        const [player1, player2, newDeckItem] = await Promise.all([
             this.getPlayer1(),
-            this.getPlayer2()
+            this.getPlayer2(),
+            this.actor.createEmbeddedDocuments('Item', [deckItem])
         ])
+        player.deckItemId = newDeckItem.id;
         if (!player1) {
             await this.setPlayer1(player);
-            await this.actor.createEmbeddedDocuments('Item', [deck]);
         } else if (!player2) {
             await this.setPlayer2(player);
-            await this.actor.createEmbeddedDocuments('Item', [deck]);
             this._startGame();
         } else {
             ui.notification.info('Others are already playing');
@@ -95,6 +94,6 @@ export default class BoardSheet extends ActorSheet {
 
     async _startGame() {
         logger.debug('Starting game');
-        await this.setPhase(GAME_PHASE.playersPreparingDice);
+        await this.setPhase(GAME.PHASE.playersPreparingDice);
     }
 }

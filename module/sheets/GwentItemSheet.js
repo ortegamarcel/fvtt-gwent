@@ -2,7 +2,6 @@ import { DEFAULT_DECK, MODULE } from "../constants.js";
 import { Player } from "../game/Player.js";
 import { logger } from "../logger.js";
 import { getSetting, createValueObj, mergeDeep } from "../utils.js";
-import Board from "../game/Board.js";
 
 export default class GwentItemSheet extends ItemSheet {
     gwentDataProp;
@@ -11,22 +10,13 @@ export default class GwentItemSheet extends ItemSheet {
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
             classes: ["gwent", "sheet", "item"],
-            width: 520,
-            //   tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }],
-            //   dragDrop: [{
-            //     dragSelector: ".items-list .item",
-            //     dropSelector: null
-            //   }],
+            width: 520
         });
     }
 
     get template() {
         return `modules/${MODULE.ID}/templates/sheets/gwent-sheet.html`;
     }
-
-    // get gameManager() {
-    //     return game.modules.get(MODULE.ID).api.gameManager;
-    // }
 
     constructor(object, options) {
         (async () => {
@@ -35,7 +25,6 @@ export default class GwentItemSheet extends ItemSheet {
                 await object.setFlag(MODULE.ID, 'initialized', true);
                 await object.setFlag(MODULE.ID, 'data', DEFAULT_DECK);
             }
-            // this._updateGwentData({ boardId: null });
         })()
         super(object, options);
     }
@@ -48,9 +37,6 @@ export default class GwentItemSheet extends ItemSheet {
         this.options.classes.push(`item-gwent`)
         if (data.item) {
             data.gwent = data.item.flags[MODULE.ID].data;
-            // if (data.gwent.gameId) {
-            //     data.gwentGame = this.gameManager.games.get(data.gwent.gameId);
-            // }
         }
         return data;
     }
@@ -59,8 +45,6 @@ export default class GwentItemSheet extends ItemSheet {
         super.activateListeners(html);
 
         html.find(".start-game").on("click", this._startNewGame.bind(this));
-        // html.find(".join-game").on("click", this._joinGame.bind(this));
-        // html.find(".cancel-game").on("click", this._cancelGame.bind(this));
     }
 
     /** @override */
@@ -79,39 +63,22 @@ export default class GwentItemSheet extends ItemSheet {
         this.object.update(weightObj);
 
         // Update total and isComplete
-        // const data = await this.object.getFlag(MODULE.ID, 'data');
         await this._updateGwentData({ isComplete: total >= 10, dice: { total } });
-        // await this.object.setFlag(MODULE.ID, 'data', { ...data, isComplete: total >= 10, dice: { ...data.dice, total } });
     }
 
     async _startNewGame() {
-        // if (!(await this._getGwentData()).gameId) {
-        //     const gameId = this.gameManager.startNewGame();
-        //     this.gameManager.joinGame(gameId, this._createPlayer());
-        //     await this._updateGwentData({ gameId });
-        // }
-        // const board = new Board();
-        // game.actors.push(board);
         const player = this._createPlayer();
         const boardId = getSetting('boardId');
         game.actors.get(boardId).sheet.joinGame(player, this.item);
     }
 
-    async _joinGame() {
-        logger.info('Joining game');
-        // const gameId = document.querySelector('#join-game-id').value.trim();
-        // this.gameManager.joinGame(gameId, this._createPlayer());
-        // await this._updateGwentData({ gameId });
+    async _showBoard() {
+        console.log("TODO: Implement show board");
     }
 
     _createPlayer() {
-        return new Player(this.actor?.id, this.actor?.name ?? game.user.name, this.actor?.img, this.item.id);
-    }
-
-    async _cancelGame() {
-        // const gameId = this.getData().gwent.gameId;
-        // this.gameManager.cancelGame(gameId);
-        // await this._updateGwentData({ gameId: null });
+        // TODO: In future, the GM should be able to enter a display name, i.e. the name of the NPC against the player is playing
+        return new Player(this.actor?.id, this.actor?.name ?? game.user.name, this.actor?.img);
     }
 
     async _getGwentData() {

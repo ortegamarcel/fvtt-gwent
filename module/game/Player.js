@@ -10,12 +10,11 @@ export class Player {
     ready = false;
     hand = null;
 
-    constructor(actorId, name, img, deckItemId) {
+    constructor(actorId, name, img) {
         this.isGM = game.user.isGM;
         this.actorId = actorId;
         this.name = name;
         this.img = img;
-        this.deckItemId = deckItemId;
         this.ready = false;
     }
 
