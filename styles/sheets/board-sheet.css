@@ -129,10 +129,6 @@
 }
 
 /* BODY */
-.board-body {
-    /* height: 400px; */
-}
-
 .board-field {
     display: grid;
     grid-template-columns: 1fr 1fr;

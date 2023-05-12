@@ -13,6 +13,9 @@
             "round3": "Round 3",
             "rollAll": "Roll All",
             "resetGame": "Reset Game"
+        },
+        "Notifications": {
+            "notYourTurn": "It's not your turn."
         }
     }
 }

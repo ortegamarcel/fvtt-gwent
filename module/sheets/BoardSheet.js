@@ -1,6 +1,7 @@
 import { GAME, MODULE } from "../constants.js";
 import Board from "../game/Board.js";
 import { logger } from "../logger.js";
+import { amIPlayer1, isMyTurn } from "../utils.js";
 
 export default class BoardSheet extends ActorSheet {
     async getValueAsync(key) {
@@ -44,6 +45,7 @@ export default class BoardSheet extends ActorSheet {
     
         html.find(".reset-game").on("click", this.reset.bind(this));
         html.find(".roll-all-dice").on("click", this._rollAllDice.bind(this));
+        html.find(".gwent-die.clickable").on("click", this._playDie.bind(this));
     }
 
     async reset() {
@@ -130,6 +132,34 @@ export default class BoardSheet extends ActorSheet {
 
     async _endRound() {
 
+    }
+
+    async _playDie(event) {
+        const dataset = event.currentTarget.closest('.gwent-die').dataset;
+        const dieIndex = dataset.dieindex;
+        const playerKey = dataset.player;
+        const gwentData = (await this.getData()).data;
+
+        if (isMyTurn(gwentData)) {
+            ui.notifications.info("TODO: Place Die");
+            const player = await this.getValueAsync(playerKey);
+            const die = player.dice[dieIndex];
+            console.log('placed die: ', die);
+            await this._nextPlayerTurn();
+        } else {
+            ui.notifications.info(game.i18n.localize("GWENT.Notifications.notYourTurn"))
+        }
+    }
+
+    async _nextPlayerTurn() {
+        const gwentData = (await this.getData()).data;
+        if (isMyTurn(gwentData)) {
+            if (amIPlayer1(gwentData)) {
+                await this.setValueAsync(GAME.PLAYER.current, await this.getValueAsync(GAME.PLAYER.p2));
+            } else {
+                await this.setValueAsync(GAME.PLAYER.current, await this.getValueAsync(GAME.PLAYER.p1));
+            }
+        }
     }
 
     async _getStartingPlayer() {

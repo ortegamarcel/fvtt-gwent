@@ -2,6 +2,7 @@ import GwentItemSheet from "../module/sheets/GwentItemSheet.js";
 import { registerSettings } from "../module/settings.js";
 import { MODULE } from "../module/constants.js";
 import BoardSheet from "../module/sheets/BoardSheet.js";
+import { amIPlayer1, amIPlayer2, amISpectator, isMyTurn } from "../module/utils.js";
 
 async function preloadHandlebarsTemplates() {
     const templatePath = [
@@ -29,34 +30,10 @@ Handlebars.registerHelper("concat", function (...str) {
     return str.slice(0, -1).join("");
 });
 
-Handlebars.registerHelper("isMyTurn", function (gwentData) {
-    if (!gwentData.currentPlayer) return false;
+Handlebars.registerHelper("isMyTurn", isMyTurn);
 
-    return gwentData.currentPlayer.isGM == game.user.isGM
-        || gwentData.currentPlayer.actorId == game.user.character?.id;
-});
+Handlebars.registerHelper("amIPlayer1", amIPlayer1);
 
-Handlebars.registerHelper("amIPlayer1", function (gwentData) {
-    if (!gwentData.player1) return false;
+Handlebars.registerHelper("amIPlayer2", amIPlayer2);
 
-    return gwentData.player1.isGM == game.user.isGM
-        || gwentData.player1.actorId == game.user.character?.id;
-});
-
-Handlebars.registerHelper("amIPlayer2", function (gwentData) {
-    if (!gwentData.player2) return false;
-
-    return gwentData.player2.isGM == game.user.isGM
-        || gwentData.player2.actorId == game.user.character?.id;
-});
-
-Handlebars.registerHelper("amISpectator", function (gwentData) {
-    if (!gwentData.currentPlayer || !gwentData.player1 || !gwentData.player2) {
-        return false;
-    }
-
-    return gwentData.player1.isGM != game.user.isGM
-        && gwentData.player1.actorId != game.user.character?.id
-        && gwentData.player2.isGM != game.user.isGM
-        && gwentData.player2.actorId != game.user.character?.id;
-});
+Handlebars.registerHelper("amISpectator", amISpectator);
