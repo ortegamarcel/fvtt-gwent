@@ -3,29 +3,17 @@ import Board from "../game/Board.js";
 import { logger } from "../logger.js";
 
 export default class BoardSheet extends ActorSheet {
-    async getPlayer1() {
-        return this.actor.getFlag(MODULE.ID, GAME.PLAYER.p1);
+    async getValue(key) {
+        return await this.actor.setFlag(MODULE.ID, key);
     }
-    async setPlayer1(player) {
-        this.actor.setFlag(MODULE.ID, GAME.PLAYER.p1, player);
+    async setValue(key, value) {
+        await this.actor.setFlag(MODULE.ID, key, value);
     }
-    async getPlayer2() {
-        return this.actor.getFlag(MODULE.ID, GAME.PLAYER.p2);
+    async getValueAsync(key) {
+        return this.actor.setFlag(MODULE.ID, key);
     }
-    async setPlayer2(player) {
-        this.actor.setFlag(MODULE.ID, GAME.PLAYER.p2, player);
-    }
-    async getBoard() {
-        return this.actor.getFlag(MODULE.ID, 'board');
-    }
-    async setBoard(value) {
-        this.actor.setFlag(MODULE.ID, 'board', value);
-    }
-    async getPhase() {
-        return this.actor.getFlag(MODULE.ID, 'phase');
-    }
-    async setPhase(value) {
-        this.actor.setFlag(MODULE.ID, 'phase', value);
+    async setValueAsync(key, value) {
+        this.actor.setFlag(MODULE.ID, key, value);
     }
 
     /** @override */
@@ -40,18 +28,18 @@ export default class BoardSheet extends ActorSheet {
 
     constructor(...args) {
         super(...args);
-        this.setBoard(new Board());
-        this.setPhase(GAME.PHASE.waitingForPlayers);
+        this.setValue(GAME.KEY.board, new Board());
+        this.setValue(GAME.KEY.phase, GAME.PHASE.waitingForPlayers);
     }
 
     /** @override */
     async getData() {
         const data = super.getData();
         const [player1, player2, phase, board] = await Promise.all([
-            this.getPlayer1(),
-            this.getPlayer2(),
-            this.getPhase(),
-            this.getBoard()
+            this.getValueAsync(GAME.PLAYER.p1),
+            this.getValueAsync(GAME.PLAYER.p2),
+            this.getValueAsync(GAME.KEY.phase),
+            this.getValueAsync(GAME.KEY.board),
         ]);
         data.data = { player1, player2, phase, board };
         data.game = game;
@@ -67,33 +55,33 @@ export default class BoardSheet extends ActorSheet {
 
     async reset() {
         await Promise.all([
-            this.setPlayer1(null),
-            this.setPlayer2(null),
-            this.setBoard(new Board()),
-            this.setPhase(GAME.PHASE.waitingForPlayers),
+            this.setValueAsync(GAME.PLAYER.p1, null),
+            this.setValueAsync(GAME.PLAYER.p2, null),
+            this.setValueAsync(GAME.KEY.board, new Board()),
+            this.setValueAsync(GAME.KEY.phase, GAME.PHASE.waitingForPlayers),
             this.actor.deleteEmbeddedDocuments('Item', this.actor.items.map(i => i.id))
         ]);
     }
 
     async joinGame(player, deckItem) {
         const [player1, player2, newDeckItem] = await Promise.all([
-            this.getPlayer1(),
-            this.getPlayer2(),
+            this.getValueAsync(GAME.PLAYER.p1),
+            this.getValueAsync(GAME.PLAYER.p2),
             this.actor.createEmbeddedDocuments('Item', [deckItem])
         ])
         player.deckItemId = newDeckItem.id;
         if (!player1) {
-            await this.setPlayer1(player);
+            await this.setValueAsync(GAME.PLAYER.p1, player);
         } else if (!player2) {
-            await this.setPlayer2(player);
+            await this.setValueAsync(GAME.PLAYER.p2, player);
             this._startGame();
         } else {
             ui.notification.info('Others are already playing');
         }
     }
 
-    async _startGame() {
+    _startGame() {
         logger.debug('Starting game');
-        await this.setPhase(GAME.PHASE.playersPreparingDice);
+        this.setValue(GAME.KEY.phase, GAME.PHASE.playersPreparingDice);
     }
 }

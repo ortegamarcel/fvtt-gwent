@@ -29,5 +29,9 @@ export const GAME = {
     PLAYER: {
         p1: 'player1',
         p2: 'player2',
+    },
+    KEY: {
+        phase: 'phase',
+        board: 'board',
     }
 };
