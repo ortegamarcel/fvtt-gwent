@@ -355,6 +355,8 @@ export default class BoardSheet extends ActorSheet {
 
     async _setCurrentPlayer(playerKey) {
         const player = await this.getValueAsync(playerKey);
+        // Set to null, because saving it, doesn't overwrite but merge object.
+        await this.setValueAsync(GAME.PLAYER.current, null);
         await this.setValueAsync(GAME.PLAYER.current, player);
     }
 }
