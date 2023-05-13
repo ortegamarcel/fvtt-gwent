@@ -3,7 +3,7 @@ import { MODULE } from "./constants.js";
 export const registerSettings = function() {
     game.settings.register(MODULE.ID, "gameName", {
         name: "GWENT.Settings.gameName",
-        name: "GWENT.Settings.gameNameHint",
+        hint: "GWENT.Settings.gameNameHint",
         scope: "world",
         config: true,
         type: String,
@@ -11,7 +11,7 @@ export const registerSettings = function() {
     });
     game.settings.register(MODULE.ID, "weightProp", {
         name: "GWENT.Settings.weightProp",
-        name: "GWENT.Settings.weightPropHint",
+        hint: "GWENT.Settings.weightPropHint",
         scope: "world",
         config: true,
         type: String,
@@ -19,7 +19,7 @@ export const registerSettings = function() {
     });
     game.settings.register(MODULE.ID, "boardId", {
         name: "GWENT.Settings.boardId",
-        name: "GWENT.Settings.boardIdHint",
+        hint: "GWENT.Settings.boardIdHint",
         scope: "world",
         config: true,
         type: String,
@@ -27,7 +27,7 @@ export const registerSettings = function() {
     });
     game.settings.register(MODULE.ID, "deckIds", {
         name: "GWENT.Settings.deckIds",
-        name: "GWENT.Settings.deckIdsHint",
+        hint: "GWENT.Settings.deckIdsHint",
         scope: "world",
         config: true,
         type: String,
