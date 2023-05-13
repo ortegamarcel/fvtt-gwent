@@ -17,19 +17,27 @@ export const registerSettings = function() {
         type: String,
         default: 'system.weight'
     });
-    game.settings.register(MODULE.ID, "debug", {
-        name: "Debug",
-        scope: "world",
-        config: true,
-        type: Boolean,
-        default: true
-    });
     game.settings.register(MODULE.ID, "boardId", {
         name: "GWENT.Settings.boardId",
         name: "GWENT.Settings.boardIdHint",
         scope: "world",
         config: true,
         type: String,
-        default: 'vEVRuxDEMtPweNIB'
+        default: null
+    });
+    game.settings.register(MODULE.ID, "deckIds", {
+        name: "GWENT.Settings.deckIds",
+        name: "GWENT.Settings.deckIdsHint",
+        scope: "world",
+        config: true,
+        type: String,
+        default: null
+    });
+    game.settings.register(MODULE.ID, "debug", {
+        name: "Debug",
+        scope: "world",
+        config: true,
+        type: Boolean,
+        default: true
     });
 }

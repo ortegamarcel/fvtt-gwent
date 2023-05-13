@@ -19,7 +19,8 @@
             "youLost": "You Lost!",
             "pass": "Pass Round",
             "passed": "passed",
-            "dice": "Dice"
+            "dice": "Dice",
+            "addPredefinedDeck": "Add Predefined Deck"
         },
         "Deck": {
             "monsters": "Monsters",
@@ -37,6 +38,16 @@
             "deckAlreadyUsed": "This deck is already used in a game.",
             "deckNotUsed": "This deck is not used in a game.",
             "notEnoughDice": "The deck must contain at least 10 dice."
+        },
+        "Settings": {
+            "gameName": "The name of the game.",
+            "gameNameHint": "Currently it is not shown anywhere, but maybe in the future.",
+            "weightProp": "Weight-Attribute",
+            "weightPropHint": "Here you can configure the attribute path for the weight of each item. For example, in the witcher system, the weight of each item is stored in the \"item.system.weight\" attribute, so you would enter \"system.weight\" in this setting.",
+            "boardId": "Board ID",
+            "boardIdHint": "Here you must enter the ID of the Board Actor. (You need to create one.)",
+            "deckIds": "Predefined Deck IDs",
+            "deckIdsHint": "If you want, you can enter a comma-separated list of ids of deck items here. If set, the GM can easily add these decks to a game. The name of the deck item, will be shown as player name. So you can i.e. name it 'Innkeeper'. IMPORTANT: This does not work with decks, that are within actor's inventories."
         }
     }
 }

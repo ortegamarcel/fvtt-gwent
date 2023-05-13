@@ -2,7 +2,7 @@ import { GAME, MODULE } from "../constants.js";
 import { Board } from "../game/Board.js";
 import { Round } from "../game/Round.js";
 import { logger } from "../logger.js";
-import { amIPlayer1, isMyTurn } from "../utils.js";
+import { amIPlayer1, getSetting, isMyTurn } from "../utils.js";
 
 export default class BoardSheet extends ActorSheet {
     async getValueAsync(key) {
@@ -37,6 +37,13 @@ export default class BoardSheet extends ActorSheet {
         data.game = game;
         data.PHASE = GAME.PHASE;
         data.PLAYER = GAME.PLAYER;
+
+        // Load predefined decks
+        const deckIds = getSetting('deckIds');
+        if (deckIds) {
+            // TODO: Implement
+        }
+
         return data;
     }
 
