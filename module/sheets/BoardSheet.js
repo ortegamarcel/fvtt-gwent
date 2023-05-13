@@ -53,6 +53,7 @@ export default class BoardSheet extends ActorSheet {
     }
 
     async reset() {
+        logger.debug('Reset game');
         await Promise.all([
             this.setValueAsync(GAME.PLAYER.p1, null),
             this.setValueAsync(GAME.PLAYER.p2, null),
@@ -73,8 +74,10 @@ export default class BoardSheet extends ActorSheet {
         ]);
         player.deckItemId = newDeckItems[0].id;
         if (!player1) {
+            logger.debug(`'${player.name}' joined as '${GAME.PLAYER.p1}'`);
             await this.setValueAsync(GAME.PLAYER.p1, player);
         } else if (!player2) {
+            logger.debug(`'${player.name}' joined as '${GAME.PLAYER.p2}'`);
             await this.setValueAsync(GAME.PLAYER.p2, player);
             await this._startGame();
         } else {
@@ -83,7 +86,7 @@ export default class BoardSheet extends ActorSheet {
     }
 
     async _startGame() {
-        logger.log('Starting game');
+        logger.debug('Starting game');
 
         // Change phase
         await this.setValueAsync(GAME.KEY.phase, GAME.PHASE.playersPreparingDice);
@@ -94,6 +97,8 @@ export default class BoardSheet extends ActorSheet {
 
     /** Init player by defining his starting and deck dice. (Not rolled yet.) */
     async _initPlayer(playerKey) {
+        logger.debug(`Init player '${playerKey}'`);
+
         const player = await this.getValueAsync(playerKey);
         const playerDeck = this.actor.items.get(player.deckItemId);
         const data = await playerDeck.sheet.getGwentData();
@@ -111,6 +116,7 @@ export default class BoardSheet extends ActorSheet {
 
     /** Creates and saves a new Board. */
     async _initBoard() {
+        logger.debug('Init board');
         this.setValueAsync(GAME.KEY.board, new Board());
     }
 
@@ -120,6 +126,7 @@ export default class BoardSheet extends ActorSheet {
      */
     async _rollAllDice(event) {
         const playerKey = event.currentTarget.closest(".player").dataset.player;
+        logger.debug(`'${playerKey} rolls all his dice.'`);
         const player = await this.getValueAsync(playerKey);
 
         const rollFormula = player.dice.map(die => `1${die.tier}`).join('+');
@@ -143,6 +150,7 @@ export default class BoardSheet extends ActorSheet {
 
     /** Applies some game logic like changing phase and defining start palyer, and starts the first round. */
     async _startRound() {
+        logger.debug('Starting round');
         await this.setValueAsync(GAME.KEY.phase, GAME.PHASE.startGame);
         await this._nextRound();
     }
@@ -153,12 +161,14 @@ export default class BoardSheet extends ActorSheet {
         let previousStartPlayer;
         let newStartPlayer;
         if (!Round.hasStarted(board.round1)) {
+            logger.debug('Start round 1');
             const startingPlayerKey = await this._getStartingPlayerKey();
             await this._setCurrentPlayer(startingPlayerKey);
             await this._resetPassedState();
             Round.start(board.round1, startingPlayerKey);
             await this.setValueAsync(GAME.KEY.board, board);
         } else if (!Round.hasStarted(board.round2)) {
+            logger.debug('Start round 2');
             const winner = Board.getWinner(board);
             Round.end(board.round1, winner);
             await this._resetPassedState();
@@ -169,6 +179,7 @@ export default class BoardSheet extends ActorSheet {
             Board.prepareForNewRound(board);
             await this.setValueAsync(GAME.KEY.board, board);
         } else if (!Round.hasStarted(board.round3)) {
+            logger.debug('Start round 3');
             const winner = Board.getWinner(board);
             Round.end(board.round2, winner);
             await this.setValueAsync(GAME.KEY.board, board);
@@ -208,6 +219,7 @@ export default class BoardSheet extends ActorSheet {
     }
 
     async _gameFinished() {
+        logger.debug('Game finished');
         const board = await this.getValueAsync(GAME.KEY.board);
         // Decide winner
         let player1Wins = 0;
@@ -221,6 +233,7 @@ export default class BoardSheet extends ActorSheet {
             player1Wins++;
         }
         const gameWinner = player1Wins >= 2 ? GAME.PLAYER.p1 : GAME.PLAYER.p2;
+        logger.debug(`'${gameWinner}' won.`);
         await this.setValueAsync(GAME.KEY.winner, gameWinner);
 
         // Change phase
@@ -243,15 +256,20 @@ export default class BoardSheet extends ActorSheet {
 
     /** Changes the current player turn, after a player made an action. */
     async _nextPlayerTurn() {
+        logger.debug('Next player turn.');
         const gwentData = (await this.getData()).data;
         if (isMyTurn(gwentData)) {
             if (amIPlayer1(gwentData)) {
                 if (!gwentData.player2.passed) {
                     await this._setCurrentPlayer(GAME.PLAYER.p2);
+                } else {
+                    logger.debug('Other player already passed.');
                 }
             } else {
                 if (!gwentData.player1.passed) {
                     await this._setCurrentPlayer(GAME.PLAYER.p1);
+                } else {
+                    logger.debug('Other player already passed.');
                 }
             }
         }
@@ -259,6 +277,7 @@ export default class BoardSheet extends ActorSheet {
 
     /** Takes a die from the players starting dice and puts/plays it on the board. */
     async _playDie(playerKey, dieIndex) {
+        logger.debug(`'${playerKey}' plays die.`);
         const player = await this.getValueAsync(playerKey);
         const die = player.dice.splice(dieIndex, 1)[0];
         const board = await this.getValueAsync(GAME.KEY.board);
@@ -269,6 +288,7 @@ export default class BoardSheet extends ActorSheet {
         await this.setValueAsync(GAME.KEY.board, board);
 
         if (!player.dice.length) {
+            logger.debug(`'${playerKey}' played his last die.`);
             this._pass(playerKey);
         }
     }
@@ -281,6 +301,7 @@ export default class BoardSheet extends ActorSheet {
 
     /** Call when a player passes. I.e. when clicking "Pass" or when he has no more dice left. */
     async _pass(playerKey) {
+        logger.debug(`'${playerKey}' passed round.`);
         const board = await this.getValueAsync(GAME.KEY.board);
         const player = await this.getValueAsync(playerKey);
         player.passed = true;
@@ -301,9 +322,11 @@ export default class BoardSheet extends ActorSheet {
 
     /** Returns the starting player key for the first round. */
     async _getStartingPlayerKey() {
-        // TODO: For now player 2 begins.
-        // Later it should be decided randomly or by the deck types.
-        return GAME.PLAYER.p2;
+        logger.debug('Deciding who goes first.');
+        // TODO: Later it should be decided randomly or by the deck types.
+        const startingPlayerKey = GAME.PLAYER.p2;
+        logger.debug(`'${startingPlayerKey}' goes first.`);
+        return startingPlayerKey;
     }
 
     async _setCurrentPlayer(playerKey) {
