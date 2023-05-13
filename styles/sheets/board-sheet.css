@@ -125,7 +125,9 @@
     line-height: 30px;
     color: white;
     width: 100%;
-    background: lightslategray;
+    background: darkslategray;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
 }
 
 /* BODY */
@@ -133,7 +135,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     height: 165px;
-    border-bottom: 1px solid black;
+    border-bottom: 2px solid black;
 }
 
 .board-field > div:first-child {
@@ -143,7 +145,7 @@
     flex-wrap: wrap;
     gap: 5px;
     border-right: 1px solid black;
-    background: lightslategray;
+    background: steelblue;
     padding: 20px;
 }
 
@@ -153,23 +155,22 @@
     align-items: flex-start;
     gap: 5px;
     border-left: 1px solid black;
-    background: lightslategray;
+    background: indianred;
     padding: 20px;
 }
 
 .player-controls {
-    background: lightgray;
     width: 100%;
-    padding: 0 10px 5px 10px;
 }
 
 .player-controls .player {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
     position: relative;
     gap: 5px;
     width: 100%;
+    height: 70px;
 }
 
 .player-controls .player button {
@@ -181,13 +182,24 @@
 /* Status Display */
 .status-display {
     display: flex;
-    background: lightgray;
+    background: darkgray;
     justify-content: center;
     align-items: flex-end;
     font-size: 16px;
     line-height: 22px;
     height: 30px;
     color: black;
+    border-bottom: 2px solid black;
+}
+
+.status-display.player-1 {
+    background: steelblue;
+    color: white;
+}
+
+.status-display.player-2 {
+    background: indianred;
+    color: white;
 }
 
 /* FOOTER */

@@ -2,8 +2,8 @@
     "GWENT": {
         "Board": {
             "phase": "Phase",
-            "waitingForPlayers": "Waiting for Players to join",
-            "playersPreparingDice": "Waiting for Players to roll their starting dice",
+            "waitingForPlayers": "Wanna Play?",
+            "playersPreparingDice": "Waiting for Players",
             "finished": "Game Finished",
             "yourTurn": "Your turn",
             "enemyTurn": "Enemy turn",

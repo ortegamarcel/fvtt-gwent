@@ -182,7 +182,7 @@
         </div>
 
         {{!-- Status Display --}}
-        <div class="status-display">
+        <div class="status-display {{#if (amIPlayer1 data)}}player-1{{else if (amIPlayer2 data)}}player-2{{/if}}">
             {{#if (eq data.phase PHASE.startGame)}}
                 {{#if (isMyTurn data)}}
                 {{localize 'GWENT.Board.yourTurn'}}
