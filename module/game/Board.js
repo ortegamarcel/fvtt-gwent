@@ -14,8 +14,8 @@ export class Board {
     firstPassed = null;
 
     static prepareForNewRound(board) {
-        board.side1.clear();
-        board.side2.clear();
+        board.side1 = [];
+        board.side2 = [];
         board.side1Total = 0;
         board.side2Total = 0;
         board.firstPassed = null;
@@ -32,7 +32,7 @@ export class Board {
         if (board.firstPassed == GAME.PLAYER.p1) {
             return board.side1Total >= board.side2Total ? GAME.PLAYER.p1 : GAME.PLAYER.p2;
         } else if (board.firstPassed == GAME.PLAYER.p2) {
-            return board.side2Total >= board.side2Total ? GAME.PLAYER.p2 : GAME.PLAYER.p1;
+            return board.side2Total >= board.side1Total ? GAME.PLAYER.p2 : GAME.PLAYER.p1;
         } else {
             logger.error('Attempts to determine the winner without a player having passed');
         }

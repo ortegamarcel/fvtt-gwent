@@ -23,7 +23,7 @@
                             {{#if (isRunning data.board.round1)}}
                             active
                             {{else if (hasFinished data.board.round1)}}
-                                {{#if (eq data.board.round1.winner GAME.PLAYER.p1)}}
+                                {{#if (eq data.board.round1.winner PLAYER.p1)}}
                                 won
                                 {{else}}
                                 lost
@@ -34,7 +34,7 @@
                             {{#if (isRunning data.board.round2)}}
                             active
                             {{else if (hasFinished data.board.round2)}}
-                                {{#if (eq data.board.round2.winner GAME.PLAYER.p1)}}
+                                {{#if (eq data.board.round2.winner PLAYER.p1)}}
                                 won
                                 {{else}}
                                 lost
@@ -45,7 +45,7 @@
                             {{#if (isRunning data.board.round3)}}
                             active
                             {{else if (hasFinished data.board.round3)}}
-                                {{#if (eq data.board.round3.winner GAME.PLAYER.p1)}}
+                                {{#if (eq data.board.round3.winner PLAYER.p1)}}
                                 won
                                 {{else}}
                                 lost
@@ -73,7 +73,7 @@
                             {{#if (isRunning data.board.round1)}}
                             active
                             {{else if (hasFinished data.board.round1)}}
-                                {{#if (eq data.board.round1.winner GAME.PLAYER.p2)}}
+                                {{#if (eq data.board.round1.winner PLAYER.p2)}}
                                 won
                                 {{else}}
                                 lost
@@ -84,7 +84,7 @@
                             {{#if (isRunning data.board.round2)}}
                             active
                             {{else if (hasFinished data.board.round2)}}
-                                {{#if (eq data.board.round2.winner GAME.PLAYER.p2)}}
+                                {{#if (eq data.board.round2.winner PLAYER.p2)}}
                                 won
                                 {{else}}
                                 lost
@@ -95,7 +95,7 @@
                             {{#if (isRunning data.board.round3)}}
                             active
                             {{else if (hasFinished data.board.round3)}}
-                                {{#if (eq data.board.round3.winner GAME.PLAYER.p2)}}
+                                {{#if (eq data.board.round3.winner PLAYER.p2)}}
                                 won
                                 {{else}}
                                 lost
@@ -114,35 +114,47 @@
             </div>
         </div>
         <div class="board-round-display">
-            {{#if (not (eq data.phase PHASE.startGame))}}
-            {{localize (concat "GWENT.Board." data.phase)}}
-            {{else if data.winner}}
-                    {{#if (eq data.winner GAME.PLAYER.p1)}}
-                        {{#if (amIPlayer1 data)}}
-                        {{localize "GWENT.Board.youWon"}}
-                        {{else if (amIPlayer2 data)}}
-                        {{localize "GWENT.Board.youLost"}}
+            <div>
+                {{#if (eq data.phase PHASE.startGame)}}
+                {{data.board.side1Total}}
+                {{/if}}
+            </div>
+            <div>
+                {{#if (not (eq data.phase PHASE.startGame))}}
+                {{localize (concat "GWENT.Board." data.phase)}}
+                {{else if data.winner}}
+                        {{#if (eq data.winner PLAYER.p1)}}
+                            {{#if (amIPlayer1 data)}}
+                            {{localize "GWENT.Board.youWon"}}
+                            {{else if (amIPlayer2 data)}}
+                            {{localize "GWENT.Board.youLost"}}
+                            {{else}}
+                            {{localize 'GWENT.Board.winner'}}:
+                            {{data.player1.name}}
+                            {{/if}}
                         {{else}}
-                        {{localize 'GWENT.Board.winner'}}:
-                        {{data.player1.name}}
+                            {{#if (amIPlayer2 data)}}
+                            {{localize "GWENT.Board.youWon"}}
+                            {{else if (amIPlayer1 data)}}
+                            {{localize "GWENT.Board.youLost"}}
+                            {{else}}
+                            {{localize 'GWENT.Board.winner'}}:
+                            {{data.player2.name}}
+                            {{/if}}
                         {{/if}}
-                    {{else}}
-                        {{#if (amIPlayer2 data)}}
-                        {{localize "GWENT.Board.youWon"}}
-                        {{else if (amIPlayer1 data)}}
-                        {{localize "GWENT.Board.youLost"}}
-                        {{else}}
-                        {{localize 'GWENT.Board.winner'}}:
-                        {{data.player2.name}}
-                        {{/if}}
-                    {{/if}}
-            {{else if (isRunning data.board.round3)}}
-            {{localize "GWENT.Board.round3"}}
-            {{else if (isRunning data.board.round2)}}
-            {{localize "GWENT.Board.round2"}}
-            {{else if (isRunning data.board.round1)}}
-            {{localize "GWENT.Board.round1"}}
-            {{/if}}
+                {{else if (isRunning data.board.round3)}}
+                {{localize "GWENT.Board.round3"}}
+                {{else if (isRunning data.board.round2)}}
+                {{localize "GWENT.Board.round2"}}
+                {{else if (isRunning data.board.round1)}}
+                {{localize "GWENT.Board.round1"}}
+                {{/if}}
+            </div>
+            <div>
+                {{#if (eq data.phase PHASE.startGame)}}
+                {{data.board.side2Total}}
+                {{/if}}
+            </div>
         </div>
     </div>
 
@@ -201,7 +213,7 @@
                 <button type="button" class="roll-all-dice">{{localize "GWENT.Board.rollAll"}}</button>
                 {{/unless}}
                 {{#if (eq data.phase PHASE.startGame)}}
-                    <button type="button" class="pass" {{#unless (isMyTurn data)}}disabled{{/unless}}>{{localize "GWENT.Board.pass"}}</button>
+                    <button type="button" class="pass-round" {{#unless (isMyTurn data)}}disabled{{/unless}}>{{localize "GWENT.Board.pass"}}</button>
                 {{/if}}
             </div>
             {{/if}}
@@ -222,7 +234,7 @@
                 <button type="button" class="roll-all-dice">{{localize "GWENT.Board.rollAll"}}</button>
                 {{/unless}}
                 {{#if (eq data.phase PHASE.startGame)}}
-                    <button type="button" class="pass" {{#unless (isMyTurn data)}}disabled{{/unless}}>{{localize "GWENT.Board.pass"}}</button>
+                    <button type="button" class="pass-round" {{#unless (isMyTurn data)}}disabled{{/unless}}>{{localize "GWENT.Board.pass"}}</button>
                 {{/if}}
             </div>
             {{/if}}

@@ -38,6 +38,7 @@ export default class BoardSheet extends ActorSheet {
         data.game = game;
         data.PHASE = GAME.PHASE;
         data.SUBPHASE = GAME.SUBPHASE;
+        data.PLAYER = GAME.PLAYER;
         return data;
     }
 
@@ -48,6 +49,7 @@ export default class BoardSheet extends ActorSheet {
         html.find(".reset-game").on("click", this.reset.bind(this));
         html.find(".roll-all-dice").on("click", this._rollAllDice.bind(this));
         html.find(".gwent-die.clickable").on("click", this._clickDie.bind(this));
+        html.find(".pass-round").on("click", this._clickPass.bind(this));
     }
 
     async reset() {
@@ -142,7 +144,6 @@ export default class BoardSheet extends ActorSheet {
     /** Applies some game logic like changing phase and defining start palyer, and starts the first round. */
     async _startRound() {
         await this.setValueAsync(GAME.KEY.phase, GAME.PHASE.startGame);
-        await this.setValueAsync(GAME.KEY.turn, GAME.PLAYER.p1);
         await this._nextRound();
     }
 
@@ -153,14 +154,17 @@ export default class BoardSheet extends ActorSheet {
         let newStartPlayer;
         if (!Round.hasStarted(board.round1)) {
             const startingPlayerKey = await this._getStartingPlayerKey();
-            await this.setValueAsync(GAME.PLAYER.current, startingPlayerKey);
+            await this._setCurrentPlayer(startingPlayerKey);
+            await this._resetPassedState();
             Round.start(board.round1, startingPlayerKey);
             await this.setValueAsync(GAME.KEY.board, board);
         } else if (!Round.hasStarted(board.round2)) {
             const winner = Board.getWinner(board);
             Round.end(board.round1, winner);
+            await this._resetPassedState();
             previousStartPlayer = board.round1.startPlayer;
             newStartPlayer = previousStartPlayer == GAME.PLAYER.p1 ? GAME.PLAYER.p2 : GAME.PLAYER.p1;
+            await this._setCurrentPlayer(newStartPlayer);
             Round.start(board.round2, newStartPlayer);
             Board.prepareForNewRound(board);
             await this.setValueAsync(GAME.KEY.board, board);
@@ -168,12 +172,14 @@ export default class BoardSheet extends ActorSheet {
             const winner = Board.getWinner(board);
             Round.end(board.round2, winner);
             await this.setValueAsync(GAME.KEY.board, board);
+            await this._resetPassedState();
 
             if (board.round1.winner == board.round2.winner) {
                 this._gameFinished();
             } else {
                 previousStartPlayer = board.round2.startPlayer;
                 newStartPlayer = previousStartPlayer == GAME.PLAYER.p1 ? GAME.PLAYER.p2 : GAME.PLAYER.p1;
+                await this._setCurrentPlayer(newStartPlayer);
                 Round.start(board.round3, newStartPlayer);
                 Board.prepareForNewRound(board);
                 await this.setValueAsync(GAME.KEY.board, board);
@@ -182,9 +188,23 @@ export default class BoardSheet extends ActorSheet {
             const winner = Board.getWinner(board);
             Round.end(board.round3, winner);
             await this.setValueAsync(GAME.KEY.board, board);
+            await this._resetPassedState();
 
             await this._gameFinished();
         }
+    }
+
+    /** Sets all passed states to false (on players and board). */
+    async _resetPassedState() {
+        const board = await this.getValueAsync(GAME.KEY.board);
+        board.firstPassed = null;
+        await this.setValueAsync(GAME.KEY.board, board);
+        const player1 = await this.getValueAsync(GAME.PLAYER.p1);
+        const player2 = await this.getValueAsync(GAME.PLAYER.p2);
+        player1.passed = false;
+        player2.passed = false;
+        await this.setValueAsync(GAME.PLAYER.p1, player1);
+        await this.setValueAsync(GAME.PLAYER.p2, player2);
     }
 
     async _gameFinished() {
@@ -226,12 +246,12 @@ export default class BoardSheet extends ActorSheet {
         const gwentData = (await this.getData()).data;
         if (isMyTurn(gwentData)) {
             if (amIPlayer1(gwentData)) {
-                if (!gwentData.board.firstPassed) {
-                    await this.setValueAsync(GAME.PLAYER.current, await this.getValueAsync(GAME.PLAYER.p2));
+                if (!gwentData.player2.passed) {
+                    await this._setCurrentPlayer(GAME.PLAYER.p2);
                 }
             } else {
-                if (!gwentData.board.firstPassed) {
-                    await this.setValueAsync(GAME.PLAYER.current, await this.getValueAsync(GAME.PLAYER.p1));
+                if (!gwentData.player1.passed) {
+                    await this._setCurrentPlayer(GAME.PLAYER.p1);
                 }
             }
         }
@@ -254,7 +274,8 @@ export default class BoardSheet extends ActorSheet {
     }
 
     /** Called when the player clicks "Pass" */
-    async _clickPass(playerKey) {
+    async _clickPass(event) {
+        const playerKey = event.currentTarget.closest(".player").dataset.player;
         this._pass(playerKey);
     }
 
@@ -273,6 +294,8 @@ export default class BoardSheet extends ActorSheet {
         const player2 = await this.getValueAsync(GAME.PLAYER.p2);
         if (player1.passed && player2.passed) {
             await this._nextRound();
+        } else {
+            await this._nextPlayerTurn();
         }
     }
 
@@ -281,5 +304,10 @@ export default class BoardSheet extends ActorSheet {
         // TODO: For now player 2 begins.
         // Later it should be decided randomly or by the deck types.
         return GAME.PLAYER.p2;
+    }
+
+    async _setCurrentPlayer(playerKey) {
+        const player = await this.getValueAsync(playerKey);
+        await this.setValueAsync(GAME.PLAYER.current, player);
     }
 }
