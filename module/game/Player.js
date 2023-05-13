@@ -15,6 +15,8 @@ export class Player {
     dice = [];
     /** The remaining dice that are not in his starting hand, if the DeckItem has more than 10 dice. Not used yet. */
     deck = [];
+    /** If the game started, this indicates if the player already passed the current round. */
+    passed = false;
 
     constructor(actorId, name, img) {
         this.isGM = game.user.isGM;

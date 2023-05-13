@@ -25,11 +25,6 @@ export const GAME = {
         finished: 'finished',
         canceled: 'canceled',
     },
-    SUBPHASE: {
-        round1: 'round1',
-        round2: 'round2',
-        round3: 'round3',
-    },
     PLAYER: {
         p1: 'player1',
         p2: 'player2',
@@ -37,7 +32,6 @@ export const GAME = {
     },
     KEY: {
         phase: 'phase',
-        subphase: 'subphase',
         board: 'board',
         currentPlayer: 'currentPlayer',
         winner: 'winner',

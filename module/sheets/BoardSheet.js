@@ -25,19 +25,17 @@ export default class BoardSheet extends ActorSheet {
     /** @override */
     async getData() {
         const data = super.getData();
-        const [player1, player2, currentPlayer, phase, subphase, board, winner] = await Promise.all([
+        const [player1, player2, currentPlayer, phase, board, winner] = await Promise.all([
             this.getValueAsync(GAME.PLAYER.p1),
             this.getValueAsync(GAME.PLAYER.p2),
             this.getValueAsync(GAME.PLAYER.current),
             this.getValueAsync(GAME.KEY.phase),
-            this.getValueAsync(GAME.KEY.subphase),
             this.getValueAsync(GAME.KEY.board),
             this.getValueAsync(GAME.KEY.winner),
         ]);
-        data.data = { player1, player2, currentPlayer, phase, subphase, board, winner };
+        data.data = { player1, player2, currentPlayer, phase, board, winner };
         data.game = game;
         data.PHASE = GAME.PHASE;
-        data.SUBPHASE = GAME.SUBPHASE;
         data.PLAYER = GAME.PLAYER;
         return data;
     }
@@ -47,6 +45,7 @@ export default class BoardSheet extends ActorSheet {
         super.activateListeners(html);
     
         html.find(".reset-game").on("click", this.reset.bind(this));
+        html.find(".play-again").on("click", this.playAgain.bind(this));
         html.find(".roll-all-dice").on("click", this._rollAllDice.bind(this));
         html.find(".gwent-die.clickable").on("click", this._clickDie.bind(this));
         html.find(".pass-round").on("click", this._clickPass.bind(this));
@@ -60,10 +59,33 @@ export default class BoardSheet extends ActorSheet {
             this.setValueAsync(GAME.PLAYER.current, null),
             this.setValueAsync(GAME.KEY.board, null),
             this.setValueAsync(GAME.KEY.phase, GAME.PHASE.waitingForPlayers),
-            this.setValueAsync(GAME.KEY.subphase, null),
             this.setValueAsync(GAME.KEY.winner, null),
             this.actor.deleteEmbeddedDocuments('Item', this.actor.items.map(i => i.id))
         ]);
+    }
+
+    async playAgain() {
+        logger.debug('Play again');
+        const player1 = await this.getValueAsync(GAME.PLAYER.p1);
+        player1.isReady = false;
+        player1.dice = [];
+        player1.deck = [];
+        player1.passed = false;
+        const player2 = await this.getValueAsync(GAME.PLAYER.p2);
+        player2.isReady = false;
+        player2.dice = [];
+        player2.deck = [];
+        player2.passed = false;
+        await Promise.all([
+            this.setValueAsync(GAME.PLAYER.p1, player1),
+            this.setValueAsync(GAME.PLAYER.p2, player2),
+            this.setValueAsync(GAME.PLAYER.current, null),
+            this.setValueAsync(GAME.KEY.board, null),
+            this.setValueAsync(GAME.KEY.phase, GAME.PHASE.playersPreparingDice),
+            this.setValueAsync(GAME.KEY.winner, null),
+        ]);
+
+        await this._startGame();
     }
 
     async joinGame(player, deckItem) {

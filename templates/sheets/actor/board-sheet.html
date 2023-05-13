@@ -243,9 +243,10 @@
     </div>
 
     {{!-- FOOTER --}}
+    {{#if game.user.isGM}}
     <div class="board-footer">
-        {{#if game.user.isGM}}
         <button type="button" class="reset-game">{{localize "GWENT.Board.resetGame"}}</button>
-        {{/if}}
+        <button type="button" class="play-again">{{localize "GWENT.Board.playAgain"}}</button>
     </div>
+    {{/if}}
 </form>
