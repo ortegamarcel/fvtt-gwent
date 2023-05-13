@@ -63,16 +63,12 @@ export default class BoardSheet extends ActorSheet {
         const player1 = await this.getValueAsync(GAME.PLAYER.p1);
         const player2 = await this.getValueAsync(GAME.PLAYER.p2);
         if (player1) {
-            const deckSource1 = player1.isGM
-                ? game.items.get(player1.deckSourceItemId)
-                : game.actors.get(player1.actorId).items.get(player1.deckSourceItemId);
-            await deckSource1.unsetFlag(MODULE.ID, 'boardId');
+            const deckSource1 = game.items.get(player1.deckSourceItemId) || game.actors.get(player1.actorId)?.items.get(player1.deckSourceItemId);
+            await deckSource1?.unsetFlag(MODULE.ID, 'boardId');
         }
         if (player2) {
-            const deckSource2 = player2.isGM
-                ? game.items.get(player2.deckSourceItemId)
-                : game.actors.get(player2.actorId).items.get(player2.deckSourceItemId);
-            await deckSource2.unsetFlag(MODULE.ID, 'boardId');
+            const deckSource2 = game.items.get(player2.deckSourceItemId) || game.actors.get(player2.actorId)?.items.get(player2.deckSourceItemId);
+            await deckSource2?.unsetFlag(MODULE.ID, 'boardId');
         }
 
         logger.debug('Reset game');
