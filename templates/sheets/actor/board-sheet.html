@@ -120,34 +120,34 @@
                 {{/if}}
             </div>
             <div>
-                {{#if (not (eq data.phase PHASE.startGame))}}
-                {{localize (concat "GWENT.Board." data.phase)}}
-                {{else if data.winner}}
-                        {{#if (eq data.winner PLAYER.p1)}}
-                            {{#if (amIPlayer1 data)}}
-                            {{localize "GWENT.Board.youWon"}}
-                            {{else if (amIPlayer2 data)}}
-                            {{localize "GWENT.Board.youLost"}}
-                            {{else}}
-                            {{localize 'GWENT.Board.winner'}}:
-                            {{data.player1.name}}
-                            {{/if}}
+                {{#if data.winner}}
+                    {{#if (eq data.winner PLAYER.p1)}}
+                        {{#if (amIPlayer1 data)}}
+                        {{localize "GWENT.Board.youWon"}}
+                        {{else if (amIPlayer2 data)}}
+                        {{localize "GWENT.Board.youLost"}}
                         {{else}}
-                            {{#if (amIPlayer2 data)}}
-                            {{localize "GWENT.Board.youWon"}}
-                            {{else if (amIPlayer1 data)}}
-                            {{localize "GWENT.Board.youLost"}}
-                            {{else}}
-                            {{localize 'GWENT.Board.winner'}}:
-                            {{data.player2.name}}
-                            {{/if}}
+                        {{localize 'GWENT.Board.winner'}}:
+                        {{data.player1.name}}
                         {{/if}}
+                    {{else}}
+                        {{#if (amIPlayer2 data)}}
+                        {{localize "GWENT.Board.youWon"}}
+                        {{else if (amIPlayer1 data)}}
+                        {{localize "GWENT.Board.youLost"}}
+                        {{else}}
+                        {{localize 'GWENT.Board.winner'}}:
+                        {{data.player2.name}}
+                        {{/if}}
+                    {{/if}}
                 {{else if (isRunning data.board.round3)}}
                 {{localize "GWENT.Board.round3"}}
                 {{else if (isRunning data.board.round2)}}
                 {{localize "GWENT.Board.round2"}}
                 {{else if (isRunning data.board.round1)}}
                 {{localize "GWENT.Board.round1"}}
+                {{else if (not (eq data.phase PHASE.startGame))}}
+                {{localize (concat "GWENT.Board." data.phase)}}
                 {{/if}}
             </div>
             <div>
