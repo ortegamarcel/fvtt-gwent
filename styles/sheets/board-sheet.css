@@ -69,13 +69,13 @@
     width: 25px;
     height: 25px;
     border-radius: 25px;
-    border: 2px solid black;
+    border: 1px solid black;
     background: white;
     box-sizing: border-box;
 }
 
 .board-player-circle.active {
-    background: lightblue;
+    background: yellow;
 }
 
 .board-player-circle.won {
@@ -161,6 +161,7 @@
 
 .player-controls {
     width: 100%;
+    min-height: 70px;
 }
 
 .player-controls .player {
@@ -184,7 +185,7 @@
     display: flex;
     background: darkgray;
     justify-content: center;
-    align-items: flex-end;
+    align-items: center;
     font-size: 16px;
     line-height: 22px;
     height: 30px;

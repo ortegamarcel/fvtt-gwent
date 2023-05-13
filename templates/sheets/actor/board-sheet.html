@@ -197,7 +197,7 @@
         {{!-- Player Controls --}}
         {{#if (amIPlayer data)}}
             <div class="player-controls">
-            {{#unless (eq data.phase PHASE.waitingForPlayers)}}
+            {{#if (or (eq data.phase PHASE.startGame) (eq data.phase PHASE.playersPreparingDice))}}
                 {{!-- Player 1 Controls --}}
                 {{#if (amIPlayer1 data)}}
                 <div class="player" data-player="player1">
@@ -239,7 +239,7 @@
                     {{/if}}
                 </div>
                 {{/if}}
-            {{/unless}}
+            {{/if}}
             </div>
         {{/if}}
     </div>
