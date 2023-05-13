@@ -19,9 +19,39 @@
                         {{/if}}
                     </h4>
                     <div class="board-player-circles">
-                        <div class="board-player-circle {{#if (eq data.subphase SUBPHASE.round1)}}active{{/if}}"></div>
-                        <div class="board-player-circle {{#if (eq data.subphase SUBPHASE.round2)}}active{{/if}}"></div>
-                        <div class="board-player-circle {{#if (eq data.subphase SUBPHASE.round3)}}active{{/if}}"></div>
+                        <div class="board-player-circle 
+                            {{#if (isRunning data.board.round1)}}
+                            active
+                            {{else if (hasFinished data.board.round1)}}
+                                {{#if (eq data.board.round1.winner GAME.PLAYER.p1)}}
+                                won
+                                {{else}}
+                                lost
+                                {{/if}}
+                            {{/if}}
+                        "></div>
+                        <div class="board-player-circle
+                            {{#if (isRunning data.board.round2)}}
+                            active
+                            {{else if (hasFinished data.board.round2)}}
+                                {{#if (eq data.board.round2.winner GAME.PLAYER.p1)}}
+                                won
+                                {{else}}
+                                lost
+                                {{/if}}
+                            {{/if}}
+                        "></div>
+                        <div class="board-player-circle
+                            {{#if (isRunning data.board.round3)}}
+                            active
+                            {{else if (hasFinished data.board.round3)}}
+                                {{#if (eq data.board.round3.winner GAME.PLAYER.p1)}}
+                                won
+                                {{else}}
+                                lost
+                                {{/if}}
+                            {{/if}}
+                        "></div>
                     </div>
                 </div>
             </div>
@@ -39,9 +69,39 @@
                         {{/if}}
                     </h4>
                     <div class="board-player-circles">
-                        <div class="board-player-circle {{#if (eq data.subphase SUBPHASE.round1)}}active{{/if}}"></div>
-                        <div class="board-player-circle {{#if (eq data.subphase SUBPHASE.round2)}}active{{/if}}"></div>
-                        <div class="board-player-circle {{#if (eq data.subphase SUBPHASE.round3)}}active{{/if}}"></div>
+                        <div class="board-player-circle
+                            {{#if (isRunning data.board.round1)}}
+                            active
+                            {{else if (hasFinished data.board.round1)}}
+                                {{#if (eq data.board.round1.winner GAME.PLAYER.p2)}}
+                                won
+                                {{else}}
+                                lost
+                                {{/if}}
+                            {{/if}}
+                        "></div>
+                        <div class="board-player-circle
+                            {{#if (isRunning data.board.round2)}}
+                            active
+                            {{else if (hasFinished data.board.round2)}}
+                                {{#if (eq data.board.round2.winner GAME.PLAYER.p2)}}
+                                won
+                                {{else}}
+                                lost
+                                {{/if}}
+                            {{/if}}
+                        "></div>
+                        <div class="board-player-circle
+                            {{#if (isRunning data.board.round3)}}
+                            active
+                            {{else if (hasFinished data.board.round3)}}
+                                {{#if (eq data.board.round3.winner GAME.PLAYER.p2)}}
+                                won
+                                {{else}}
+                                lost
+                                {{/if}}
+                            {{/if}}
+                        "></div>
                     </div>
                 </div>
                 <div>
@@ -54,9 +114,34 @@
             </div>
         </div>
         <div class="board-round-display">
-            {{#if data.subphase}}
-            {{localize (concat "GWENT.Board." data.subphase)}}
-            {{!-- {{data.subphase}} --}}
+            {{#if (not (eq data.phase PHASE.startGame))}}
+            {{localize (concat "GWENT.Board." data.phase)}}
+            {{else if data.winner}}
+                    {{#if (eq data.winner GAME.PLAYER.p1)}}
+                        {{#if (amIPlayer1 data)}}
+                        {{localize "GWENT.Board.youWon"}}
+                        {{else if (amIPlayer2 data)}}
+                        {{localize "GWENT.Board.youLost"}}
+                        {{else}}
+                        {{localize 'GWENT.Board.winner'}}:
+                        {{data.player1.name}}
+                        {{/if}}
+                    {{else}}
+                        {{#if (amIPlayer2 data)}}
+                        {{localize "GWENT.Board.youWon"}}
+                        {{else if (amIPlayer1 data)}}
+                        {{localize "GWENT.Board.youLost"}}
+                        {{else}}
+                        {{localize 'GWENT.Board.winner'}}:
+                        {{data.player2.name}}
+                        {{/if}}
+                    {{/if}}
+            {{else if (isRunning data.board.round3)}}
+            {{localize "GWENT.Board.round3"}}
+            {{else if (isRunning data.board.round2)}}
+            {{localize "GWENT.Board.round2"}}
+            {{else if (isRunning data.board.round1)}}
+            {{localize "GWENT.Board.round1"}}
             {{/if}}
         </div>
     </div>
@@ -68,8 +153,8 @@
             <div>
                 {{#each data.board.side1}}
                 <div class="gwent-die">
-                    <div class="tier">{{this.tier}}</div>
-                    <div class="value">{{this.value}}</div>
+                    <div class="tier">{{tier}}</div>
+                    <div class="value">{{value}}</div>
                 </div>
                 {{/each}}
             </div>
@@ -77,8 +162,8 @@
             <div>
                 {{#each data.board.side2}}
                 <div class="gwent-die">
-                    <div class="tier">{{this.tier}}</div>
-                    <div class="value">{{this.value}}</div>
+                    <div class="tier">{{tier}}</div>
+                    <div class="value">{{value}}</div>
                 </div>
                 {{/each}}
             </div>
@@ -86,9 +171,7 @@
 
         {{!-- Status Display --}}
         <div class="status-display">
-            {{#if (not (eq data.phase PHASE.startGame))}}
-            {{localize (concat "GWENT.Board." data.phase)}}
-            {{else}}
+            {{#if (eq data.phase PHASE.startGame)}}
                 {{#if (isMyTurn data)}}
                 {{localize 'GWENT.Board.yourTurn'}}
                 {{else if (amISpectator data)}}
@@ -117,6 +200,9 @@
                 {{#unless data.player1.isReady}}
                 <button type="button" class="roll-all-dice">{{localize "GWENT.Board.rollAll"}}</button>
                 {{/unless}}
+                {{#if (eq data.phase PHASE.startGame)}}
+                    <button type="button" class="pass" {{#unless (isMyTurn data)}}disabled{{/unless}}>{{localize "GWENT.Board.pass"}}</button>
+                {{/if}}
             </div>
             {{/if}}
 
@@ -136,7 +222,7 @@
                 <button type="button" class="roll-all-dice">{{localize "GWENT.Board.rollAll"}}</button>
                 {{/unless}}
                 {{#if (eq data.phase PHASE.startGame)}}
-                    <button type="button" class="pass" {{#unless (isMyTurn data)}}disabled="disabled"{{/unless}}>Pass</button>
+                    <button type="button" class="pass" {{#unless (isMyTurn data)}}disabled{{/unless}}>{{localize "GWENT.Board.pass"}}</button>
                 {{/if}}
             </div>
             {{/if}}

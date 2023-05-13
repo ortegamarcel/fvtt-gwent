@@ -2,6 +2,7 @@ export const MODULE = {
     ID: 'fvtt-gwent'
 };
 
+/** Used when creating a new deck item. */
 export const DEFAULT_DECK = {
     type: 'monsters',
     isComplete: true,
@@ -39,5 +40,6 @@ export const GAME = {
         subphase: 'subphase',
         board: 'board',
         currentPlayer: 'currentPlayer',
+        winner: 'winner',
     }
 };

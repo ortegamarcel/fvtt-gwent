@@ -120,7 +120,7 @@
 
 .board-round-display {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     font-size: 20px;
     line-height: 30px;
     color: white;
@@ -138,26 +138,21 @@
 
 .board-field > div:first-child {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-end;
+    justify-content: flex-end;
+    align-items: flex-start;
+    flex-wrap: wrap;
     gap: 5px;
     border-right: 1px solid black;
-    width: 100%;
-    height: 100%;
     background: lightslategray;
     padding: 20px;
 }
 
 .board-field > div:last-child {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-end;
+    justify-content: flex-start;
+    align-items: flex-start;
     gap: 5px;
     border-left: 1px solid black;
-    width: 100%;
-    height: 100%;
     background: lightslategray;
     padding: 20px;
 }

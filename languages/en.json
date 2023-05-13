@@ -12,7 +12,11 @@
             "round2": "Round 2",
             "round3": "Round 3",
             "rollAll": "Roll All",
-            "resetGame": "Reset Game"
+            "resetGame": "Reset Game",
+            "winner": "Winner",
+            "youWon": "You Won!",
+            "youLost": "You Lost!",
+            "pass": "Pass Round"
         },
         "Notifications": {
             "notYourTurn": "It's not your turn."

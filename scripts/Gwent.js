@@ -3,6 +3,7 @@ import { registerSettings } from "../module/settings.js";
 import { MODULE } from "../module/constants.js";
 import BoardSheet from "../module/sheets/BoardSheet.js";
 import { amIPlayer1, amIPlayer2, amISpectator, isMyTurn } from "../module/utils.js";
+import { Round } from "../module/game/Round.js";
 
 async function preloadHandlebarsTemplates() {
     const templatePath = [
@@ -37,3 +38,13 @@ Handlebars.registerHelper("amIPlayer1", amIPlayer1);
 Handlebars.registerHelper("amIPlayer2", amIPlayer2);
 
 Handlebars.registerHelper("amISpectator", amISpectator);
+
+Handlebars.registerHelper("isRunning", Round.isRunning);
+
+Handlebars.registerHelper("hasStarted", Round.hasStarted);
+
+Handlebars.registerHelper("hasFinished", Round.hasFinished);
+
+Handlebars.registerHelper("stringify", function(obj) {
+    return JSON.stringify(obj);
+});
