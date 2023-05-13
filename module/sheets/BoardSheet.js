@@ -243,6 +243,8 @@ export default class BoardSheet extends ActorSheet {
     async _gameFinished() {
         logger.debug('Game finished');
         const board = await this.getValueAsync(GAME.KEY.board);
+        Board.prepareForNewRound(board);
+        await this.setValueAsync(GAME.KEY.board, board);
         // Decide winner
         let player1Wins = 0;
         if (board.round1.winner == GAME.PLAYER.p1) {
