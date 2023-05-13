@@ -53,6 +53,11 @@
                             {{/if}}
                         "></div>
                     </div>
+                    <div class="board-player-info">
+                        {{#if data.player1}}
+                        {{localize "GWENT.Board.dice"}}: {{data.player1.dice.length}}/10
+                        {{/if}}
+                    </div>
                 </div>
             </div>
             <div class="board-banner-center">
@@ -102,6 +107,11 @@
                                 {{/if}}
                             {{/if}}
                         "></div>
+                    </div>
+                    <div class="board-player-info">
+                        {{#if data.player2}}
+                        {{localize "GWENT.Board.dice"}}: {{data.player2.dice.length}}/10
+                        {{/if}}
                     </div>
                 </div>
                 <div>

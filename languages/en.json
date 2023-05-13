@@ -18,7 +18,8 @@
             "youWon": "You Won!",
             "youLost": "You Lost!",
             "pass": "Pass Round",
-            "passed": "passed"
+            "passed": "passed",
+            "dice": "Dice"
         },
         "Notifications": {
             "notYourTurn": "It's not your turn."

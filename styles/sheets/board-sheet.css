@@ -60,6 +60,12 @@
     row-gap: 5px;
 }
 
+.board-banner-player .board-player-info {
+    display: flex;
+    align-items: flex-end;
+    height: 32px;
+}
+
 .board-player-circles {
     display: flex;
     column-gap: 5px;
