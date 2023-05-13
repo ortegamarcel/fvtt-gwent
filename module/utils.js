@@ -71,21 +71,25 @@ export function mergeDeep(target, ...sources) {
 export function isMyTurn(gwentData) {
     if (!gwentData.currentPlayer) return false;
 
-    return gwentData.currentPlayer.isGM == game.user.isGM
+    return (gwentData.currentPlayer.isGM && gwentData.currentPlayer.isGM == game.user.isGM)
         || gwentData.currentPlayer.actorId == game.user.character?.id;
+}
+
+export function amIPlayer(gwentData) {
+    return amIPlayer1(gwentData) || amIPlayer2(gwentData);
 }
 
 export function amIPlayer1(gwentData) {
     if (!gwentData.player1) return false;
 
-    return gwentData.player1.isGM == game.user.isGM
+    return (gwentData.player1.isGM && gwentData.player1.isGM == game.user.isGM)
         || gwentData.player1.actorId == game.user.character?.id;
 }
 
 export function amIPlayer2(gwentData) {
     if (!gwentData.player2) return false;
 
-    return gwentData.player2.isGM == game.user.isGM
+    return (gwentData.player2.isGM && gwentData.player2.isGM == game.user.isGM)
         || gwentData.player2.actorId == game.user.character?.id;
 }
 
@@ -94,8 +98,9 @@ export function amISpectator(gwentData) {
         return false;
     }
 
-    return gwentData.player1.isGM != game.user.isGM
-        && gwentData.player1.actorId != game.user.character?.id
-        && gwentData.player2.isGM != game.user.isGM
-        && gwentData.player2.actorId != game.user.character?.id;
+    return !amIPlayer1(gwentData) && !amIPlayer2(gwentData);
+    // return gwentData.player1.isGM != game.user.isGM
+    //     && gwentData.player1.actorId != game.user.character?.id
+    //     && gwentData.player2.isGM != game.user.isGM
+    //     && gwentData.player2.actorId != game.user.character?.id;
 }

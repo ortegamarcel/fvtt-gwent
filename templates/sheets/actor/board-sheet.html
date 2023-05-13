@@ -195,51 +195,53 @@
         </div>
 
         {{!-- Player Controls --}}
-        <div class="player-controls">
-        {{#unless (eq data.phase PHASE.waitingForPlayers)}}
-            {{!-- Player 1 Controls --}}
-            {{#if (amIPlayer1 data)}}
-            <div class="player" data-player="player1">
-                {{#if (isMyTurn data)}}
-                    {{#each data.player1.dice}}
-                    {{> "modules/fvtt-gwent/templates/partials/gwent-die.html" die=this player="player1" index=@index cssClass="clickable"}}
-                    {{/each}}
-                {{else}}
-                    {{#each data.player1.dice}}
-                    {{> "modules/fvtt-gwent/templates/partials/gwent-die.html" die=this player="player1" index=@index}}
-                    {{/each}}
+        {{#if (amIPlayer data)}}
+            <div class="player-controls">
+            {{#unless (eq data.phase PHASE.waitingForPlayers)}}
+                {{!-- Player 1 Controls --}}
+                {{#if (amIPlayer1 data)}}
+                <div class="player" data-player="player1">
+                    {{#if (isMyTurn data)}}
+                        {{#each data.player1.dice}}
+                        {{> "modules/fvtt-gwent/templates/partials/gwent-die.html" die=this player="player1" index=@index cssClass="clickable"}}
+                        {{/each}}
+                    {{else}}
+                        {{#each data.player1.dice}}
+                        {{> "modules/fvtt-gwent/templates/partials/gwent-die.html" die=this player="player1" index=@index}}
+                        {{/each}}
+                    {{/if}}
+                    {{#unless data.player1.isReady}}
+                    <button type="button" class="roll-all-dice">{{localize "GWENT.Board.rollAll"}}</button>
+                    {{/unless}}
+                    {{#if (eq data.phase PHASE.startGame)}}
+                        <button type="button" class="pass-round" {{#unless (isMyTurn data)}}disabled{{/unless}}>{{localize "GWENT.Board.pass"}}</button>
+                    {{/if}}
+                </div>
                 {{/if}}
-                {{#unless data.player1.isReady}}
-                <button type="button" class="roll-all-dice">{{localize "GWENT.Board.rollAll"}}</button>
-                {{/unless}}
-                {{#if (eq data.phase PHASE.startGame)}}
-                    <button type="button" class="pass-round" {{#unless (isMyTurn data)}}disabled{{/unless}}>{{localize "GWENT.Board.pass"}}</button>
-                {{/if}}
-            </div>
-            {{/if}}
 
-            {{!-- Player 2 Controls --}}
-            {{#if (amIPlayer2 data)}}
-            <div class="player" data-player="player2">
-                {{#if (isMyTurn data)}}
-                    {{#each data.player2.dice}}
-                    {{> "modules/fvtt-gwent/templates/partials/gwent-die.html" die=this player="player2" index=@index cssClass="clickable"}}
-                    {{/each}}
-                {{else}}
-                    {{#each data.player2.dice}}
-                    {{> "modules/fvtt-gwent/templates/partials/gwent-die.html" die=this player="player2" index=@index}}
-                    {{/each}}
+                {{!-- Player 2 Controls --}}
+                {{#if (amIPlayer2 data)}}
+                <div class="player" data-player="player2">
+                    {{#if (isMyTurn data)}}
+                        {{#each data.player2.dice}}
+                        {{> "modules/fvtt-gwent/templates/partials/gwent-die.html" die=this player="player2" index=@index cssClass="clickable"}}
+                        {{/each}}
+                    {{else}}
+                        {{#each data.player2.dice}}
+                        {{> "modules/fvtt-gwent/templates/partials/gwent-die.html" die=this player="player2" index=@index}}
+                        {{/each}}
+                    {{/if}}
+                    {{#unless data.player2.isReady}}
+                    <button type="button" class="roll-all-dice">{{localize "GWENT.Board.rollAll"}}</button>
+                    {{/unless}}
+                    {{#if (eq data.phase PHASE.startGame)}}
+                        <button type="button" class="pass-round" {{#unless (isMyTurn data)}}disabled{{/unless}}>{{localize "GWENT.Board.pass"}}</button>
+                    {{/if}}
+                </div>
                 {{/if}}
-                {{#unless data.player2.isReady}}
-                <button type="button" class="roll-all-dice">{{localize "GWENT.Board.rollAll"}}</button>
-                {{/unless}}
-                {{#if (eq data.phase PHASE.startGame)}}
-                    <button type="button" class="pass-round" {{#unless (isMyTurn data)}}disabled{{/unless}}>{{localize "GWENT.Board.pass"}}</button>
-                {{/if}}
+            {{/unless}}
             </div>
-            {{/if}}
-        {{/unless}}
-        </div>
+        {{/if}}
     </div>
 
     {{!-- FOOTER --}}

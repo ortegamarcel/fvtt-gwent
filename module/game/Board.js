@@ -47,16 +47,4 @@ export class Board {
             board.side2Total += die.value;
         }
     }
-
-    // static getCurrentRound(board) {
-    //     if (Round.isRunning(board.round1)) {
-    //         return board.round1;
-    //     } else if (Round.isRunning(board.round2)) {
-    //         return board.round2;
-    //     } else if (Round.isRunning(board.round3)) {
-    //         return board.round3;
-    //     } else {
-    //         return null;
-    //     }
-    // }
 }
