@@ -1,11 +1,8 @@
 import { DEFAULT_DECK, MODULE } from "../constants.js";
 import { Player } from "../game/Player.js";
-import { logger } from "../logger.js";
 import { getSetting, createValueObj, mergeDeep } from "../utils.js";
 
 export default class GwentItemSheet extends ItemSheet {
-    gwentDataProp;
-
     /** @override */
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
@@ -30,9 +27,10 @@ export default class GwentItemSheet extends ItemSheet {
     }
 
     /** @override */
-    getData() {
+    async getData() {
         let data = super.getData();
         data.game = game;
+        data.data.boardId = await this.object.getFlag(MODULE.ID, 'boardId');
 
         this.options.classes.push(`item-gwent`)
         if (data.item) {
@@ -44,7 +42,8 @@ export default class GwentItemSheet extends ItemSheet {
     activateListeners(html) {
         super.activateListeners(html);
 
-        html.find(".start-game").on("click", this._startNewGame.bind(this));
+        html.find(".join-game").on("click", this.joinGame.bind(this));
+        html.find(".show-board").on("click", this.showBoard.bind(this));
     }
 
     /** @override */
@@ -66,19 +65,36 @@ export default class GwentItemSheet extends ItemSheet {
         await this._updateGwentData({ isComplete: total >= 10, dice: { total } });
     }
 
-    async _startNewGame() {
-        const player = this._createPlayer();
-        const boardId = getSetting('boardId');
-        game.actors.get(boardId).sheet.joinGame(player, this.item);
+    async joinGame(event, name) {
+        if (this.object.flags[MODULE.ID].data.dice.total < 10) {
+            ui.notifications.warn(game.i18n.localize("GWENT.Notifications.notEnoughDice"));
+            return;
+        }
+        const boardId = await this.object.getFlag(MODULE.ID, 'boardId');
+        if (!boardId) {
+            const player = this._createPlayer(name);
+            const boardId = getSetting('boardId');
+            await this.object.setFlag(MODULE.ID, 'boardId', boardId);
+            const boardSheet = game.actors.get(boardId).sheet;
+            boardSheet.render(true);
+            boardSheet.joinGame(player, this.item);
+        } else {
+            ui.notifications.warn(game.i18n.localize("GWENT.Notifications.deckAlreadyUsed"));
+        }
     }
 
-    async _showBoard() {
-        console.log("TODO: Implement show board");
+    async showBoard() {
+        const boardId = await this.object.getFlag(MODULE.ID, 'boardId');
+        if (boardId) {
+            game.actors.get(boardId).sheet.render(true);
+        } else {
+            ui.notifications.warn(game.i18n.localize("GWENT.Notifications.deckNotUsed"));
+        }
     }
 
-    _createPlayer() {
+    _createPlayer(name) {
         // TODO: In future, the GM should be able to enter a display name, i.e. the name of the NPC against the player is playing
-        return new Player(this.actor?.id, this.actor?.name ?? game.user.name, this.actor?.img);
+        return new Player(this.actor?.id, name ?? this.actor?.name ?? game.user.name, this.actor?.img);
     }
 
     async getGwentData() {

@@ -21,8 +21,22 @@
             "passed": "passed",
             "dice": "Dice"
         },
+        "Deck": {
+            "monsters": "Monsters",
+            "scoiatael": "Scoia'tael",
+            "north": "North",
+            "nilfgaardian": "Nilfgaardian",
+            "typeNotSupported": "Deck Types are not implemented yet",
+            "deckSize": "Decksize",
+            "type": "Decktype",
+            "showBoard": "Show Board",
+            "joinGame": "Play"
+        },
         "Notifications": {
-            "notYourTurn": "It's not your turn."
+            "notYourTurn": "It's not your turn.",
+            "deckAlreadyUsed": "This deck is already used in a game.",
+            "deckNotUsed": "This deck is not used in a game.",
+            "notEnoughDice": "The deck must contain at least 10 dice."
         }
     }
 }

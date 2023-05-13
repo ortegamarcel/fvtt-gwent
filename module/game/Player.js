@@ -9,6 +9,11 @@ export class Player {
     img = null;
     /** The GwentItem id that belongs to the player. Is needed to generade the players dice (hand) and deck to play with. */
     deckItemId = null;
+    /** 
+     * The original GwentItem id from which the new deck item for the game is created.
+     * This deck item has the board id stored, which needs to be deleted once the game finished. 
+     */
+    deckSourceItemId = null;
     /** The status, if the round can start. True, after the player rolled his starting dice. */
     isReady = false;
     /** The starting dice to play a game. Derived from the GwentItem (`deckItemId`) */

@@ -52,6 +52,22 @@ export default class BoardSheet extends ActorSheet {
     }
 
     async reset() {
+        logger.debug('Reset deck items');
+        const player1 = await this.getValueAsync(GAME.PLAYER.p1);
+        const player2 = await this.getValueAsync(GAME.PLAYER.p2);
+        if (player1) {
+            const deckSource1 = player1.isGM
+                ? game.items.get(player1.deckSourceItemId)
+                : game.actors.get(player1.actorId).items.get(player1.deckSourceItemId);
+            await deckSource1.unsetFlag(MODULE.ID, 'boardId');
+        }
+        if (player2) {
+            const deckSource2 = player2.isGM
+                ? game.items.get(player2.deckSourceItemId)
+                : game.actors.get(player2.actorId).items.get(player2.deckSourceItemId);
+            await deckSource2.unsetFlag(MODULE.ID, 'boardId');
+        }
+
         logger.debug('Reset game');
         await Promise.all([
             this.setValueAsync(GAME.PLAYER.p1, null),
@@ -94,6 +110,7 @@ export default class BoardSheet extends ActorSheet {
             this.getValueAsync(GAME.PLAYER.p2),
             this.actor.createEmbeddedDocuments('Item', [deckItem])
         ]);
+        player.deckSourceItemId = deckItem.id;
         player.deckItemId = newDeckItems[0].id;
         if (!player1) {
             logger.debug(`'${player.name}' joined as '${GAME.PLAYER.p1}'`);

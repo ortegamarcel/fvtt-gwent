@@ -6,26 +6,26 @@
             <div class="gwent-deck-type">
                 <div class="gwent-deck-type-label">
                     <div>
-                        Decktype: 
+                        {{localize "GWENT.Deck.type"}}: 
                         {{#if (and gwent.type (not game.user.isGM))}}
-                            {{gwent.type}}
+                            {{localize (concat "GWENT.Deck." gwent.type)}}
                         {{else}}
                             <select name="flags.fvtt-gwent.data.type" class="gwent-deck-type-select" id="gwent-deck-type-select">
                                 {{#select gwent.type}}
-                                    <option value="monsters">Monsters</option>
-                                    <option value="north">North</option>
-                                    <option value="nilfgaardian">Nilfgaardian</option>
-                                    <option value="scoiatael">Scoia'tael</option>
+                                    <option value="monsters">{{localize "GWENT.Deck.monsters"}}</option>
+                                    <option value="north">{{localize "GWENT.Deck.north"}}</option>
+                                    <option value="nilfgaardian">{{localize "GWENT.Deck.nilfgaardian"}}</option>
+                                    <option value="scoiatael">{{localize "GWENT.Deck.scoiatael"}}</option>
                                 {{/select}}
                             </select>
                         {{/if}}
                     </div>
                     <div class="{{#unless gwent.isComplete}}error{{/unless}}">
-                        Decksize: {{gwent.dice.total}}/10
+                        {{localize "GWENT.Deck.deckSize"}}: {{gwent.dice.total}}/10
                     </div>
                 </div>
                 <div class="gwent-deck-type-description">
-                    Hier kommt eine Beschreibung für den Typ hin.
+                    {{localize "GWENT.Deck.typeNotSupported"}}
                 </div>
             </div>
         </div>
@@ -55,8 +55,7 @@
     </div>
 
     <div class="gwent-item-footer">
-        <input type="text" id="join-game-id" placeholder="Enter Game ID to join game">
-        <button type="button" class="join-game">Join Game</button>
-        <button type="button" class="start-game">Start Game</button>
+        <button type="button" class="show-board" {{#unless data.boardId}}disabled{{/unless}}>{{localize "GWENT.Deck.showBoard"}}</button>
+        <button type="button" class="join-game" {{#if data.boardId}}disabled{{/if}}>{{localize "GWENT.Deck.joinGame"}}</button>
     </div>
 </form>

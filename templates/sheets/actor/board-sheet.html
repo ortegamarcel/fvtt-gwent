@@ -264,7 +264,7 @@
     {{#if game.user.isGM}}
     <div class="board-footer">
         <button type="button" class="reset-game">{{localize "GWENT.Board.resetGame"}}</button>
-        <button type="button" class="play-again">{{localize "GWENT.Board.playAgain"}}</button>
+        <button type="button" class="play-again" {{#unless (and data.player1 data.player2)}}disabled{{/unless}}>{{localize "GWENT.Board.playAgain"}}</button>
     </div>
     {{/if}}
 </form>
