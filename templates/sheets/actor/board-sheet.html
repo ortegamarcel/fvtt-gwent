@@ -114,9 +114,12 @@
             </div>
         </div>
         <div class="board-round-display">
-            <div>
+            <div class="board-total-display">
                 {{#if (eq data.phase PHASE.startGame)}}
                 {{data.board.side1Total}}
+                    {{#if data.player1.passed}}
+                    &nbsp;({{localize "GWENT.Board.passed"}})
+                    {{/if}}
                 {{/if}}
             </div>
             <div>
@@ -150,9 +153,12 @@
                 {{localize (concat "GWENT.Board." data.phase)}}
                 {{/if}}
             </div>
-            <div>
+            <div class="board-total-display">
                 {{#if (eq data.phase PHASE.startGame)}}
                 {{data.board.side2Total}}
+                    {{#if data.player2.passed}}
+                    &nbsp;({{localize "GWENT.Board.passed"}})
+                    {{/if}}
                 {{/if}}
             </div>
         </div>
