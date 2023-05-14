@@ -39,10 +39,10 @@ export default class BoardSheet extends ActorSheet {
         data.PLAYER = GAME.PLAYER;
 
         // Load predefined decks
-        const deckIds = getSetting('deckIds');
-        if (deckIds) {
-            // TODO: Implement
-        }
+        // const deckIds = getSetting('deckIds');
+        // if (deckIds) {
+        //     // TODO: Implement
+        // }
 
         return data;
     }
