@@ -11,6 +11,10 @@ Even though it's originating from the Witcher franchise, it is **system agnostic
 - [1. How to Play](#1-how-to-play)
   - [1.1. Rules](#11-rules)
   - [1.2. Start a Game](#12-start-a-game)
+    - [1.2.1. Play a Game](#121-play-a-game)
+    - [1.2.2. Create a Macro](#122-create-a-macro)
+    - [1.2.3. Play again](#123-play-again)
+    - [1.2.4. Reset the Game Board](#124-reset-the-game-board)
 - [2. Installation](#2-installation)
   - [2.1. Method 1](#21-method-1)
   - [2.2. Method 2](#22-method-2)
@@ -37,20 +41,35 @@ Please read the [reddit post](https://www.reddit.com/r/WitcherTRPG/comments/ep0c
 ## 1.2. Start a Game
 Here I will explain how two players can play against each other or against the GM. Also, additional features like resetting the board and playing multiple matches in a row.
 
-**Play a Game:**
-
-Once, you finished the initial setup, (at least one of) your players should have a deck in their inventory. They should be able to open it from there (see previous screenshot). When they **click on "Play"**, the deck and player will be added to the board, which will automatically show up to the player. Now another person (or the GM) can do the same (click "Play" on one of their decks).
+### 1.2.1. Play a Game
+Once, you finished the initial setup, (at least one of) your players should have a deck in their inventory. They should be able to edit it from there (see previous screenshot). When they **click on "Play"**, the deck and player will be added to the board, which will automatically show up to the player. Now another person (or the GM) can do the same (click "Play" on one of their decks).
 
 **The game will automatically start, once two players joined the game board.**
 
 ![Gwen't - The Dice Game](.github/readme/gwent-just-startet.jpg)
 
-**Play again:**
+### 1.2.2. Create a Macro
+Your **players** can also create a macro to play a game with a specific deck.
 
+1. Click on an empty slot in your quick actions bar at the bottom, so a new macro will be created. (A dialog should show up.)
+2. Set type to "script"
+3. Enter the following code:
+
+```javascript
+(async () => {
+  const deckId = "XYZ";
+  game.user.character.items.get(deckId).sheet.joinGame();
+})()
+```
+4. Replace "XYZ" with the ID of the/your deck item ID.
+    - To get the ID of an item, open the edit dialog and click on the small icon in the top left corner behind the name
+
+**For the GM**, simply remove `.user.character` from the script.
+
+### 1.2.3. Play again
 As long as there are two player's joined, **only the GM can click on "Play Again"** to start the game from the beginning.
 
-**Reset the Game Board:**
-
+### 1.2.4. Reset the Game Board
 **Only the GM** can see and **click on "Reset Game"**, to remove all joined player's and deck's from the game board, so that other player's can join.
 
 # 2. Installation
@@ -77,6 +96,8 @@ Before you can play *Gwen't - The Dice Game*, you need to create a game board. S
 
 ### 3.1.1. Create Board Actor
 Create an actor as usual. The type doesn't matter. But I recomment to give it a meaningful name, like "Gwen't Gaming Table".
+
+**IMPORTANT:** If you want to place the actor on the scene, so players can easily open the board by clicking on it, make sure to check "Link Actor Data" on the token properties.
 
 ![Gwen't - The Dice Game](.github/readme/actor.jpg)
 
