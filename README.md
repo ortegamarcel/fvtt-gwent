@@ -33,7 +33,6 @@ Please read the [reddit post](https://www.reddit.com/r/WitcherTRPG/comments/ep0c
 * If a deck contains more than 10 dice, it will **take the best 10 dice (d12 > d10 > d8 > ...)**. I don't know if some other logic would be nicer/better. Let me know what you think, by creating an issue [here](https://github.com/ortegamarcel/fvtt-gwent/issues).
 * **There are no "Easy", "Normal" or "Hard" options available**. Instead I recommend to create some predefined decks with different difficulties and use them the same as players would. A feature is planned, where you can easily configure these predefined decks to easily add them to games. So basically you can then configure as many difficulties as you want.
 * **There are no faction bonuses/deck types yet**. You can select it, but it has no effect for now. But that will be added in future. I might adapt these bonuses slightly for balancing purposes.
-* For now, **player2 always begins**. Due to time issues, I could't make it randomly, but I will change that asap.
 
 ## 1.2. Start a Game
 Here I will explain how two players can play against each other or against the GM. Also, additional features like resetting the board and playing multiple matches in a row.
