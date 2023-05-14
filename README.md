@@ -1,6 +1,9 @@
 # Gwen't - The Dice Game <!-- omit in toc -->
 Gwen't is a simplyfied version of the Witcher card game "Gwent" but with dices, created by u/Dr_Manuka. (Source: https://www.reddit.com/r/WitcherTRPG/comments/ep0cc0/gwent_the_dice_version_of_gwent/)
 
+![Gwen't - The Dice Game](.github/readme/gwent.jpg)
+![Gwen't - The Dice Game](.github/readme/gwent-deck.jpg)
+
 # IMPORTANT <!-- omit in toc -->
 **This document is a complete guide on how to install, configure and play "Gwen't - The Dice Game". So you should read it completely to avoid confusion.**
 Even though it's originating from the Witcher franchise, it is **system agnostic**.
@@ -23,7 +26,6 @@ Even though it's originating from the Witcher franchise, it is **system agnostic
 
 # 1. How to Play
 ## 1.1. Rules
-<!-- TODO: Show image of board, where to players are playing -->
 Please read the [reddit post](https://www.reddit.com/r/WitcherTRPG/comments/ep0cc0/gwent_the_dice_version_of_gwent/) from [Dr_Manuka](https://www.reddit.com/u/Dr_Manuka), since it already explains the rules. But there are some changes or restriction, which I will mention here:
 
 * **In the event of a draw, the player who passed first wins. If a player places his last die, it automatically counts as "pass".** I think this is a fair solution that ensures that all games are finished within 3 rounds.
