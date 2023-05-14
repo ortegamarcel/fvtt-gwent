@@ -25,14 +25,15 @@ export const registerSettings = function() {
         type: String,
         default: null
     });
-    game.settings.register(MODULE.ID, "deckIds", {
-        name: "GWENT.Settings.deckIds",
-        hint: "GWENT.Settings.deckIdsHint",
-        scope: "world",
-        config: true,
-        type: String,
-        default: null
-    });
+    // For next release
+    // game.settings.register(MODULE.ID, "deckIds", {
+    //     name: "GWENT.Settings.deckIds",
+    //     hint: "GWENT.Settings.deckIdsHint",
+    //     scope: "world",
+    //     config: true,
+    //     type: String,
+    //     default: null
+    // });
     game.settings.register(MODULE.ID, "debug", {
         name: "Debug",
         scope: "world",
