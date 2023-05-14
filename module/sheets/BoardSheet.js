@@ -367,8 +367,9 @@ export default class BoardSheet extends ActorSheet {
     /** Returns the starting player key for the first round. */
     async _getStartingPlayerKey() {
         logger.debug('Deciding who goes first.');
-        // TODO: Later it should be decided randomly or by the deck types.
-        const startingPlayerKey = GAME.PLAYER.p2;
+        const rollResult = await new Roll('1d2').evaluate({ async: true });
+        const value = rollResult.dice[0].results[0].result;
+        const startingPlayerKey = value == 1 ? GAME.PLAYER.p1 : GAME.PLAYER.p2;
         logger.debug(`'${startingPlayerKey}' goes first.`);
         return startingPlayerKey;
     }
