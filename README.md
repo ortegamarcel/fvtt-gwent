@@ -12,9 +12,11 @@ Even though it's originating from the Witcher franchise, it is **system agnostic
   - [1.1. Rules](#11-rules)
   - [1.2. Start a Game](#12-start-a-game)
     - [1.2.1. Play a Game](#121-play-a-game)
-    - [1.2.2. Create a Macro](#122-create-a-macro)
-    - [1.2.3. Play again](#123-play-again)
-    - [1.2.4. Reset the Game Board](#124-reset-the-game-board)
+    - [1.2.2. Play again](#122-play-again)
+    - [1.2.3. Reset the Game Board](#123-reset-the-game-board)
+  - [1.3. Useful Macros](#13-useful-macros)
+    - [1.3.1. Start a Game (for Players and GM)](#131-start-a-game-for-players-and-gm)
+    - [1.3.2. Open Board (for Players and GM)](#132-open-board-for-players-and-gm)
 - [2. Installation](#2-installation)
   - [2.1. Method 1](#21-method-1)
   - [2.2. Method 2](#22-method-2)
@@ -48,7 +50,14 @@ Once, you finished the initial setup, (at least one of) your players should have
 
 ![Gwen't - The Dice Game](.github/readme/gwent-just-startet.jpg)
 
-### 1.2.2. Create a Macro
+### 1.2.2. Play again
+As long as there are two player's joined, **only the GM can click on "Play Again"** to start the game from the beginning.
+
+### 1.2.3. Reset the Game Board
+**Only the GM** can see and **click on "Reset Game"**, to remove all joined player's and deck's from the game board, so that other player's can join.
+
+## 1.3. Useful Macros
+### 1.3.1. Start a Game (for Players and GM)
 Your **players** can also create a macro to play a game with a specific deck.
 
 1. Click on an empty slot in your quick actions bar at the bottom, so a new macro will be created. (A dialog should show up.)
@@ -66,11 +75,17 @@ Your **players** can also create a macro to play a game with a specific deck.
 
 **For the GM**, simply remove `.user.character` from the script.
 
-### 1.2.3. Play again
-As long as there are two player's joined, **only the GM can click on "Play Again"** to start the game from the beginning.
+### 1.3.2. Open Board (for Players and GM)
+You and your players can create a macro, to easily show the board. Simply create a new macro, set the type to "script" and paste the following code.
 
-### 1.2.4. Reset the Game Board
-**Only the GM** can see and **click on "Reset Game"**, to remove all joined player's and deck's from the game board, so that other player's can join.
+```javascript
+(async () => {
+  const boardId = game.settings.get("fvtt-gwent", "boardId");
+  game.actors.get(boardId).sheet.render(true);
+})()
+```
+
+> Nothing needs to be changed. Works for players and GM.
 
 # 2. Installation
 ## 2.1. Method 1
