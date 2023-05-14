@@ -13,6 +13,7 @@ Even though it's originating from the Witcher franchise, it is **system agnostic
   - [1.2. Start a Game](#12-start-a-game)
 - [2. Installation](#2-installation)
   - [2.1. Method 1](#21-method-1)
+  - [2.2. Method 2](#22-method-2)
 - [3. Initial setup](#3-initial-setup)
   - [3.1. Create Game Board](#31-create-game-board)
     - [3.1.1. Create Board Actor](#311-create-board-actor)
@@ -43,7 +44,7 @@ Once, you finished the initial setup, (at least one of) your players should have
 
 **The game will automatically start, once two players joined the game board.**
 
-<!-- Show image of board -->
+![Gwen't - The Dice Game](.github/readme/gwent-just-startet.jpg)
 
 **Play again:**
 
@@ -54,13 +55,13 @@ As long as there are two player's joined, **only the GM can click on "Play Again
 **Only the GM** can see and **click on "Reset Game"**, to remove all joined player's and deck's from the game board, so that other player's can join.
 
 # 2. Installation
-<!-- ## Method 1
+## 2.1. Method 1
 1. On Foundry VTT's **Configuration and Setup** screen, go to **Add-on Modules**
 2. Click **Install Module**
-3. Search for **Token Action HUD TheWitcherTRPG** 
-4. Click **Install** next to the module listing -->
+3. Search for **Gwen't - The Dice Game** 
+4. Click **Install** next to the module listing
 
-## 2.1. Method 1
+## 2.2. Method 2
 1. On Foundry VTT's **Configuration and Setup** screen, go to **Add-on Modules**
 2. Click **Install Module**
 3. In the Manifest URL field, paste: `https://github.com/ortegamarcel/fvtt-gwent/releases/latest/download/module.json`
@@ -78,18 +79,18 @@ Before you can play *Gwen't - The Dice Game*, you need to create a game board. S
 ### 3.1.1. Create Board Actor
 Create an actor as usual. The type doesn't matter. But I recomment to give it a meaningful name, like "Gwen't Gaming Table".
 
-<!-- Show image of witcher actor -->
+![Gwen't - The Dice Game](.github/readme/actor.jpg)
 
 Now click on "Sheet" to open the *Sheet Configuration*-dialog. Select "gwent.BoardSheet" for "This Sheet" and click on "Save Sheet Configuration". Now it should look like this:
 
-<!-- Show image of game board -->
+![Gwen't - The Dice Game](.github/readme/gwent-empty.jpg)
 
 Click on the top left icon behind the actor name to copy its ID to the clipboard. This is important for the next step.
 
 ### 3.1.2. Configure Board Settings
 Go to "Game Settings" -> "Configure Settings" -> "Gwen't". 
 
-<!-- Add settings screenshots with numbers -->
+![Gwen't - The Dice Game](.github/readme/settings.jpg)
 
 1. **Paste the ID of the game board under "Board ID"**
 
@@ -112,17 +113,17 @@ With "deck" I mean a collection of dice, representing a usual deck like used in 
 ### 3.2.1. Create Deck Item
 I am using the Witcher TRPG system, but it will work similar for any system as well.
 
-**First** you **create an item for your players, like you do as usual.** Select a item type so that the deck will be shown in a meaningful place in the players inventory. For me it will be under *Equipment* -> *General*.
+**First** you **create an item for your players, like you do as usual.** Select a item type so that the deck will be shown in a meaningful place in the players inventory. For me, to show it under *Equipment* -> *General*, I need to select "Valuable". This might be different for your system.
 
-<!-- Show Image of create item box, where to select the type -->
+![Gwen't - The Dice Game](.github/readme/create-new-item.jpg)
 
-I recommend to give it a meaningful name, i.e. "John's Gwen't Deck" and select a nice image.
+I recommend to give it a meaningful name, i.e. "Crehwill's Deck" and select a nice image.
 
-<!-- Show the item, before the sheet type is changed -->
+![Gwen't - The Dice Game](.github/readme/item.jpg)
 
-**Click on "Sheet"** to open the *Sheet Configuration*-Dialog. **Select "gwent.GwentItemSheet" for "This Sheet"**.
+**Click on "Sheet"** to open the *Sheet Configuration*-Dialog. **Select "gwent.GwentItemSheet" for "This Sheet"**. This is how a item looks in the Witcher TRPG system.
 
-<!-- Show deck item sheet -->
+![Gwen't - The Dice Game](.github/readme/gwent-deck.jpg)
 
 Now you have successfully created a gwent deck, that will behave like all your other items, but can be used to play a game. You can enter which and how many dice will be inside the deck. You need at least 10 dice to be able to play with it.
 
