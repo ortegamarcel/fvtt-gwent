@@ -14,9 +14,6 @@ Even though it's originating from the Witcher franchise, it is **system agnostic
     - [1.2.1. Play a Game](#121-play-a-game)
     - [1.2.2. Play again](#122-play-again)
     - [1.2.3. Reset the Game Board](#123-reset-the-game-board)
-  - [1.3. Useful Macros](#13-useful-macros)
-    - [1.3.1. Start a Game (for Players and GM)](#131-start-a-game-for-players-and-gm)
-    - [1.3.2. Open Board (for Players and GM)](#132-open-board-for-players-and-gm)
 - [2. Installation](#2-installation)
   - [2.1. Method 1](#21-method-1)
   - [2.2. Method 2](#22-method-2)
@@ -27,6 +24,9 @@ Even though it's originating from the Witcher franchise, it is **system agnostic
     - [3.1.3. Configure Ownership](#313-configure-ownership)
   - [3.2. Creating Decks](#32-creating-decks)
     - [3.2.1. Create Deck Item](#321-create-deck-item)
+  - [3.3. Useful Macros](#33-useful-macros)
+    - [3.3.1. Start a Game (for Players and GM)](#331-start-a-game-for-players-and-gm)
+    - [3.3.2. Open Board (for Players and GM)](#332-open-board-for-players-and-gm)
 - [4. Support](#4-support)
 
 <br>
@@ -55,37 +55,6 @@ As long as there are two player's joined, **only the GM can click on "Play Again
 
 ### 1.2.3. Reset the Game Board
 **Only the GM** can see and **click on "Reset Game"**, to remove all joined player's and deck's from the game board, so that other player's can join.
-
-## 1.3. Useful Macros
-### 1.3.1. Start a Game (for Players and GM)
-Your **players** can also create a macro to play a game with a specific deck.
-
-1. Click on an empty slot in your quick actions bar at the bottom, so a new macro will be created. (A dialog should show up.)
-2. Set type to "script"
-3. Enter the following code:
-
-```javascript
-(async () => {
-  const deckId = "XYZ";
-  game.user.character.items.get(deckId).sheet.joinGame();
-})()
-```
-4. Replace "XYZ" with the ID of the/your deck item ID.
-    - To get the ID of an item, open the edit dialog and click on the small icon in the top left corner behind the name
-
-**For the GM**, simply remove `.user.character` from the script.
-
-### 1.3.2. Open Board (for Players and GM)
-You and your players can create a macro, to easily show the board. Simply create a new macro, set the type to "script" and paste the following code.
-
-```javascript
-(async () => {
-  const boardId = game.settings.get("fvtt-gwent", "boardId");
-  game.actors.get(boardId).sheet.render(true);
-})()
-```
-
-> Nothing needs to be changed. Works for players and GM.
 
 # 2. Installation
 ## 2.1. Method 1
@@ -161,6 +130,37 @@ I recommend to give it a meaningful name, i.e. "Crehwill's Deck" and select a ni
 ![Gwen't - The Dice Game](.github/readme/gwent-deck.jpg)
 
 Now you have successfully created a gwent deck, that will behave like all your other items, but can be used to play a game. You can enter which and how many dice will be inside the deck. You need at least 10 dice to be able to play with it.
+
+## 3.3. Useful Macros
+### 3.3.1. Start a Game (for Players and GM)
+Your **players** can also create a macro to play a game with a specific deck.
+
+1. Click on an empty slot in your quick actions bar at the bottom, so a new macro will be created. (A dialog should show up.)
+2. Set type to "script"
+3. Enter the following code:
+
+```javascript
+(async () => {
+  const deckId = "XYZ";
+  game.user.character.items.get(deckId).sheet.joinGame();
+})()
+```
+4. Replace "XYZ" with the ID of the/your deck item ID.
+    - To get the ID of an item, open the edit dialog and click on the small icon in the top left corner behind the name
+
+**For the GM**, simply remove `.user.character` from the script.
+
+### 3.3.2. Open Board (for Players and GM)
+You and your players can create a macro, to easily show the board. Simply create a new macro, set the type to "script" and paste the following code.
+
+```javascript
+(async () => {
+  const boardId = game.settings.get("fvtt-gwent", "boardId");
+  game.actors.get(boardId).sheet.render(true);
+})()
+```
+
+> Nothing needs to be changed. Works for players and GM.
 
 # 4. Support
 For questions, feature requests or bug reports, please open an issue [here](https://github.com/ortegamarcel/fvtt-gwent/issues).
