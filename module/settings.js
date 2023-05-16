@@ -7,7 +7,7 @@ export const registerSettings = function() {
         scope: "world",
         config: true,
         type: String,
-        default: 'Gwen\'t'
+        default: 'Gwen\'t - The Dice Game'
     });
     game.settings.register(MODULE.ID, "weightProp", {
         name: "GWENT.Settings.weightProp",
@@ -39,6 +39,6 @@ export const registerSettings = function() {
         scope: "world",
         config: true,
         type: Boolean,
-        default: true
+        default: false
     });
 }
